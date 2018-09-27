@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dengue Risk</title>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+  <style>
+    html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
+
+      /* Always set the map height explicitly to define the size of the div
+      * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
+      /* Add Animation */
+      @-webkit-keyframes animatetop {
+        from {top:-300px; opacity:0} 
+        to {top:0; opacity:1}
+      }
+
+      @keyframes animatetop {
+        from {top:-300px; opacity:0}
+        to {top:0; opacity:1}
+      }
+
+      .close {
+        color: black;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+      }
+
+      .close: hover,
+      .close: focus {
+        cursor: pointer;
+        color: #000;
+        text-decoration: none;
+      }
+
+      a:link {
+        text-decoration: none;
+      }
+    </style>
+  </head>
+
+  <body class="w3-light-grey">
+    <!-- Top container -->
+    <div class="w3-bar w3-top w3-indigo w3-large" style="z-index:4">
+      <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey" onclick="w3_open();">
+        <i class="fa fa-bars"></i>  Menu
+      </button>
+
+      <span class="w3-bar-item w3-left">Dengue<b>Risk</b></span>
+    </div>
+
+    <!-- Sidebar/menu -->
+    <nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
+      <div class="w3-bar-block" style="margin-top:40px">
+        <div id="menu-klik">
+          <div class="w3-container">
+            <h4><b>Selamat Datang,</b></h4>
+          </div>
+        </div>
+
+        <hr>
+
+        <a href="#" class="w3-bar-block w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu">
+          <i class="fa fa-remove fa-fw"></i>  Close Menu
+        </a>
+
+        <a href="#" class="w3-bar-item w3-button w3-padding" id="parameter-kejadian" onclick="showKelola()">
+          <b>Lihat Daftar Parameter</b>
+        </a>
+        <a href="#" class="w3-bar-item w3-button w3-padding parameter w3-border-deep-orange" style="display:none;" id="kasus_db">
+          &nbsp;&nbsp;&nbsp;&nbsp;Kasus Demam Berdarah
+        </a>
+        <a href="#" class="w3-bar-item w3-button w3-padding parameter w3-border-deep-orange" style="display: none;" id="kepadatan_penduduk">
+          &nbsp;&nbsp;&nbsp;&nbsp;Kepadatan Penduduk
+        </a>
+        <a href="#" class="w3-bar-item w3-button w3-padding parameter w3-border-deep-orange" style="display: none;" id="jumlah_rtmiskin">
+          &nbsp;&nbsp;&nbsp;&nbsp;Jumlah Rumah Tangga Miskin
+        </a>
+        <a href="#" class="w3-bar-item w3-button w3-padding parameter w3-border-deep-orange" style="display: none;" id="tdk_sekolah">
+          &nbsp;&nbsp;&nbsp;&nbsp;Belum/Tidak Sekolah
+        </a>
+        <a href="#" class="w3-bar-item w3-button w3-padding parameter w3-border-deep-orange" style="display: none;" id="belum_tamat_sd">
+          &nbsp;&nbsp;&nbsp;&nbsp;Belum Tamat SD
+        </a>   
+        <a href="#" class="w3-bar-item w3-button w3-padding parameter w3-border-deep-orange" style="display: none;" id="tamat_sd">
+          &nbsp;&nbsp;&nbsp;&nbsp;Tamat SD
+        </a>
+        <a href="#" class="w3-bar-item w3-button w3-padding parameter w3-border-deep-orange" style="display: none;" id="tamat_smp">
+          &nbsp;&nbsp;&nbsp;&nbsp;Tamat SMP
+        </a>
+        <a href="#" class="w3-bar-item w3-button w3-padding parameter w3-border-deep-orange" style="display: none;" id="tamat_sma">
+          &nbsp;&nbsp;&nbsp;&nbsp;Tamat SMA
+        </a>
+        <a href="#" class="w3-bar-item w3-button w3-padding parameter w3-border-deep-orange" style="display: none;" id="tamat_pt">
+          &nbsp;&nbsp;&nbsp;&nbsp;Tamat Perguruan Tinggi
+        </a>
+
+        <a href="#" class="w3-bar-item w3-button w3-padding" id="tahun-regresi" onclick="showRegresi()">
+          <b>Regresi</b>
+        </a>
+        <a href="#" class="w3-bar-item w3-button w3-padding regresi w3-border-blue" style="display:none;" id="tahun1" onclick="aktifkanRegresi(this, '2012')">
+          &nbsp;&nbsp;&nbsp;&nbsp;2012
+        </a>
+        <a href="#" class="w3-bar-item w3-button w3-padding regresi w3-border-blue" style="display: none;" id="tahun2" onclick="aktifkanRegresi(this, '2013')">
+          &nbsp;&nbsp;&nbsp;&nbsp;2013
+        </a>
+        <a href="#" class="w3-bar-item w3-button w3-padding regresi w3-border-blue" style="display: none;" id="tahun3" onclick="aktifkanRegresi(this, '2014')">
+          &nbsp;&nbsp;&nbsp;&nbsp;2014
+        </a>
+        <a href="#" class="w3-bar-item w3-button w3-padding regresi w3-border-blue" style="display: none;" id="tahun4" onclick="aktifkanRegresi(this, '2015')">
+          &nbsp;&nbsp;&nbsp;&nbsp;2015
+        </a>
+        <a href="#" class="w3-bar-item w3-button w3-padding regresi w3-border-blue" style="display: none;" id="tahun5" onclick="aktifkanRegresi(this, '2016')">
+          &nbsp;&nbsp;&nbsp;&nbsp;2016
+        </a>
+
+        <br><br>
+      </div>
+    </nav>
+
+    <div id="map"></div>
+
+    <!--Scrip menampilkan Peta-->
+    <script>
+      let map;
+      let infoWindow;
+
+    //   function getData() {
+    //     var xhttp = new XMLHttpRequest();
+    //     xhttp.onreadystatechange = function() {
+    //       if (xhttp.readyState == 4 && xhttp.status == 200) {
+    //         fillMap(JSON.parse(xhttp.responseText));
+    //       // fillKecamatan(JSON.parse(xhttp.responseText));
+    //     }
+    //   };
+    //   xhttp.open("GET", "/api/sby_kecamatan", true);
+    //   xhttp.send();
+    // }
+
+    function getData(tahun) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+          if (xhttp.readyState == 4 && xhttp.status == 200) {
+            fillMap(JSON.parse(xhttp.responseText), tahun);
+          // fillKecamatan(JSON.parse(xhttp.responseText));
+        }
+      };
+      xhttp.open("GET", "/api/sby_kecamatan", true);
+      xhttp.send();
+    }
+
+    function fillMap(data, tahun){
+      initMap(data, tahun);
+    }
+
+    function initMap(data = [], tahun) {
+     map = new google.maps.Map(document.getElementById('map'), {
+      center: {lat: -7.2763472, lng: 112.7192666},
+      zoom: 12,
+      mapTypeId: 'terrain'
+    });
+
+     data.forEach(function(datum){
+      var tepi = datum.geom.replace("MULTIPOLYGON(((","").replace(")))","").split(",");
+      var batas = [];
+      var warna = '#b50c15';
+
+      tepi.forEach(function(geom){
+        var latLng = geom.split(" ");
+
+        batas.push({
+          lat: parseFloat(latLng[1]),
+          lng: parseFloat(latLng[0])
+        });
+      });
+
+      var kecamatanPoly = new google.maps.Polygon({
+        paths: batas,
+        strokeColor: '#000000',
+        strokeOpacity: 1,
+        strokeWeight: 0.5,
+        fillColor: warna,
+        fillOpacity: 0.6
+      });
+
+      google.maps.event.addListener(kecamatanPoly,'click',function() {
+        ambilNama(
+              datum.gid,
+              batas,
+              map,
+              kecamatanPoly,
+              datum,
+              tahun
+            );
+      });
+      kecamatanPoly.setMap(map);
+    });
+     // infoWindow = new google.maps.InfoWindow;
+  }
+
+function ambilNama(id, batas, map, kecamatanPoly, datum, tahun){
+  let xhttp = new XMLHttpRequest();
+  let result;
+
+          // nama dimasukkan ke mapCanvas
+          // set attribute pada mapCanvas
+          let url = "http://localhost:8080/api/tampildata/kasus_db?tahun=" + tahun;
+
+          xhttp.onreadystatechange = function(){
+            if (this.readyState == 4 && this.status == 200) {
+              result = JSON.parse(this.responseText);
+                  // console.log(result);
+                  console.log(result[datum.gid]);
+
+                  let divHeader = document.createElement("div");
+
+                  let nameContainer = document.createElement("h4");
+                  let name = document.createTextNode(datum.name);
+                  let divider = document.createElement("hr");
+                  
+                  let divBody = document.createElement("div");
+                  
+                  let divRow1 = document.createElement("div");
+                  let jmlKasusText = document.createTextNode("Jumlah Kasus DB : ");
+                  let jmlKasus = document.createTextNode(result[datum.gid].jmlKasus);
+
+                  let divRow2 = document.createElement("div");      
+                  let jmlPendudukText = document.createTextNode("Jumlah Penduduk : ");
+                  let jmlPenduduk = document.createTextNode(result[datum.gid].jmlPenduduk);
+
+                  let divContainer = document.createElement("div");
+                  
+                  let divFooter = document.createElement("div");
+
+                  nameContainer.setAttribute("style", "margin-bottom: 0px;");
+                  //updateContainer.setAttribute("style", "margin-top: 0px;margin-bottom: 0px;");
+                  divider.setAttribute("style", "margin-top: 10px;margin-bottom: 10px;");
+                  divRow1.setAttribute("style", "margin-bottom:5px");
+                  divRow2.setAttribute("class", "margin-bottom:5px");
+                  // divCol1.setAttribute("class", "col");
+                  //divCol1.setAttribute("style", "display:inline;float:left;width:auto");
+                  // divCol2.setAttribute("class", "col");
+                  //divCol2.setAttribute("style", "display: inline;float:left;width:auto;margin-left:10px");
+                  divHeader.setAttribute("style", "margin-bottom:5px");
+                  divBody.setAttribute("style", "margin-top:10px");
+                  // divFooter.setAttribute("class", "row");
+
+                  
+                  nameContainer.appendChild(name);
+                  //updateText.appendChild(updateTitle);
+                  //updateText.appendChild(update);
+                  //updateContainer.appendChild(updateText);
+                  divHeader.appendChild(nameContainer);
+                  //divHeader.appendChild(updateContainer);
+                  divHeader.appendChild(divider);
+
+                  divRow1.appendChild(jmlKasusText);
+                  divRow1.appendChild(jmlKasus);
+
+
+                  divRow2.appendChild(jmlPendudukText);
+                  divRow2.appendChild(jmlPenduduk);
+
+                  // tempContainer.appendChild(tempTitle);
+                  // tempContainer.appendChild(tempFill);
+                  // humidityContainer.appendChild(humidityTitle);
+                  // humidityContainer.appendChild(humidityFill);
+                  // divCol1.appendChild(tempContainer);
+                  // divCol1.appendChild(humidityContainer);
+
+                  // rainContainer.appendChild(rainTitle);
+                  // rainContainer.appendChild(rainFill);
+                  // pHContainer.appendChild(pHTitle);
+                  // pHContainer.appendChild(pHFill);
+                  // divCol2.appendChild(pHContainer);
+                  // divCol2.appendChild(rainContainer);
+
+                  // divRow2.appendChild(divCol1);
+                  // divRow2.appendChild(divCol2);
+
+                  divBody.appendChild(divRow1);
+                  divBody.appendChild(divRow2);
+
+                  divContainer.appendChild(divHeader);
+                  divContainer.appendChild(divBody);
+
+                  if(infoWindow == null) {
+                    infoWindow = new google.maps.InfoWindow({ 
+                      content: divContainer,
+                      maxWidth: 350
+                    });
+
+                    infoWindow.open(map, kecamatanPoly);
+                  } else {
+                    infoWindow.setContent(divContainer);
+                    infoWindow.setPosition(batas[0]);
+                  }
+                }
+              };
+
+              xhttp.open("GET", url, true);
+              xhttp.send();
+            }
+            getData();
+
+          </script>
+
+          <script>
+      // Inisialisasi variabel 
+      
+      let parameterKejadian = false;
+      let tahunRegresi = false;
+
+      
+      // Get the Sidebar
+      var mySidebar = document.getElementById("mySidebar");
+
+      // Get the DIV with overlay effect
+      var overlayBg = document.getElementById("myOverlay");
+
+      // Toggle between showing and hiding the sidebar, and add overlay effect
+      function w3_open() {
+        if (mySidebar.style.display === 'block') {
+          mySidebar.style.display = 'none';
+          overlayBg.style.display = "none";
+        } else {
+          mySidebar.style.display = 'block';
+          overlayBg.style.display = 'block';
+        }
+      }
+
+      // Close the sidebar with the close button
+      function w3_close() {
+        mySidebar.style.display = "none";
+        overlayBg.style.display = "none";
+      }
+
+      // //Digunakan untuk mereset left-bar yang sudah ada dan menggantikan dengan left-bar yang baru sepanjang elemen (<a></a>)
+      // function aktifkanMenu(elemen) {
+      //   resetParameter();
+
+      //   elemen.classList.add("w3-leftbar");
+      // }
+
+      // //digunakan untuk mereset parameter left-bar
+      // function resetParameter() {
+      //   let parameters = document.getElementsByClassName("parameter");
+
+      //   for(let i=0; i<parameters.length; i++) {
+      //     parameters[i].classList.remove("w3-leftbar");
+      //   }
+      // }
+
+      // Fungsi Kelola Tampilan Daftar Parameter 
+      function showKelola() {
+        if (parameterKejadian) {
+          parameterKejadian = false;
+          document.getElementById("kasus_db").style.display = 'none';
+          document.getElementById("kepadatan_penduduk").style.display = 'none';
+          document.getElementById("jumlah_rtmiskin").style.display = 'none';
+          document.getElementById("tdk_sekolah").style.display = 'none';
+          document.getElementById("belum_tamat_sd").style.display = 'none';
+          document.getElementById("tamat_sd").style.display = 'none';
+          document.getElementById("tamat_smp").style.display = 'none';
+          document.getElementById("tamat_sma").style.display = 'none';
+          document.getElementById("tamat_pt").style.display = 'none';
+        } else {
+          parameterKejadian = true;
+          document.getElementById("kasus_db").style.display = 'block';
+          document.getElementById("kepadatan_penduduk").style.display = 'block';
+          document.getElementById("jumlah_rtmiskin").style.display = 'block';
+          document.getElementById("tdk_sekolah").style.display = 'block';
+          document.getElementById("belum_tamat_sd").style.display = 'block';
+          document.getElementById("tamat_sd").style.display = 'block';
+          document.getElementById("tamat_smp").style.display = 'block';
+          document.getElementById("tamat_sma").style.display = 'block';
+          document.getElementById("tamat_pt").style.display = 'block';
+        }
+      }
+
+      //Digunakan untuk mereset left-bar yang sudah ada dan menggantikan dengan left-bar yang baru sepanjang elemen (<a></a>)
+      function aktifkanRegresi(elemen, tahun) {
+        resetRegresi();
+
+        elemen.classList.add("w3-leftbar");
+        // console.log(tahun);
+        getData(tahun);
+      }
+
+      //digunakan untuk mereset regresi left-bar
+      function resetRegresi() {
+        let regresi = document.getElementsByClassName("regresi");
+
+        for(let i=0; i<regresi.length; i++) {
+          regresi[i].classList.remove("w3-leftbar");
+        }
+      }
+
+      // Fungsi Kelola Tampilan Daftar Parameter 
+      function showRegresi() {
+        if (tahunRegresi) {
+          tahunRegresi = false;
+          document.getElementById("tahun1").style.display = 'none';
+          document.getElementById("tahun2").style.display = 'none';
+          document.getElementById("tahun3").style.display = 'none';
+          document.getElementById("tahun4").style.display = 'none';
+          document.getElementById("tahun5").style.display = 'none';
+        } else {
+          tahunRegresi = true;
+          document.getElementById("tahun1").style.display = 'block';
+          document.getElementById("tahun2").style.display = 'block';
+          document.getElementById("tahun3").style.display = 'block';
+          document.getElementById("tahun4").style.display = 'block';
+          document.getElementById("tahun5").style.display = 'block';
+        }
+      }
+
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCw4g4V9MtupcGa7PjP6APSX0UFNyOe-08&callback=initMap"></script>
+  </body>
+  </html>

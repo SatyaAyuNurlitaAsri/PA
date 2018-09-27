@@ -1,0 +1,1342 @@
+<!DOCTYPE html>
+<html>
+<title>Admin Page</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<style>
+	
+	html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
+	/* Add Animation */
+	@-webkit-keyframes animatetop {
+	    from {top:-300px; opacity:0} 
+	    to {top:0; opacity:1}
+	}
+
+	@keyframes animatetop {
+	    from {top:-300px; opacity:0}
+	    to {top:0; opacity:1}
+	}
+	.close {
+	    color: black;
+	    float: right;
+	    font-size: 28px;
+	    font-weight: bold;
+	}
+
+	.close: hover,
+	.close: focus {
+		cursor: pointer;
+		color: #000;
+	  text-decoration: none;
+	}
+
+  a, a:link {
+    text-decoration: none;
+  }
+
+</style>
+
+<body class="w3-light-grey">
+
+<!-- Top container -->
+<div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
+  <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey" onclick="w3_open();"><i class="fa fa-bars"></i>  Menu</button>
+  <span class="w3-bar-item w3-left">Coaspol<b>Admin</b></span>
+  <a href="/logout/do">
+    <button class="w3-btn w3-hover-none w3-right w3-text-white">Logout</button>
+  </a>
+</div>
+
+<!-- Sidebar/menu -->
+<nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
+  <div class="w3-container w3-row">
+    <!-- <div class="w3-col s4">
+      <img src="/img/stepsister.png" class="w3-circle w3-margin-right" style="width:46px">
+    </div> -->
+    <div class="w3-col s8 w3-bar">
+      <span>Welcome, <strong>Admin</strong></span><br>
+    </div>
+  </div>
+  <hr>
+  <!-- <div class="w3-container">
+    <h5>Dashboard</h5>
+  </div> -->
+  <div class="w3-bar-block">
+    <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding" id="tampil-over-sensor"><i class="fa fa-users fa-fw"></i>  Overview</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding w3-blue" id="tampil-data-sensor" onclick="tampilDataSensor()"><i class="fa fa-edit fa-fw"></i>  Kelola Data Sensor</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding" id="tampil-data-ikan"  onclick="tampilDataIkan()"><i class="fa fa-edit fa-fw"></i>  Kelola Data Ikan</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-cog fa-fw"></i>  Settings</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-edit fa-fw"></i>  About</a><br><br>
+  </div>
+</nav>
+
+
+<!-- Overlay effect when opening sidebar on small screens -->
+<div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+<!-- !PAGE CONTENT! -->
+<div class="w3-main" style="margin-left:300px;margin-top:43px;">
+
+  <!-- Header -->
+  <!-- <header class="w3-container" style="padding-top:22px">
+    <h5><b><i class="fa fa-dashboard"></i> Aset Database</b></h5>
+  </header> -->
+  <hr>
+
+  <div class="w3-panel">
+    <div class="w3-row-padding" style="margin:0 -16px">
+      <!-- <div class="w3-third">
+        <h5>Regions</h5>
+        <img src="/w3images/region.jpg" style="width:100%" alt="Google Regional Map">
+      </div> -->
+      <div>
+        <div class="w3-row">
+        <div id="data-sensor">
+          <div>
+            <h4>Data Sensor</h4>
+          </div>
+          <hr>
+
+          <div class="w3-col l12">
+            <div class="w3-col l4 w3-left">
+              <a class="w3-button w3-green w3-round-small w3-text-white" 
+                  onclick="document.getElementById('modal-tambah').style.display='block'">Tambah data</a>
+            </div>        
+            <div class="w3-col l4 w3-right">
+              <input type="text" id="search-bar" class="w3-input w3-border w3-round" onkeyup="search()" placeholder="Cari nama stasiun..">
+            </div>
+            <div class="w3-col l4">&nbsp;</div>
+          </div>
+          <div class="w3-margin-bottom">&nbsp;</div>
+
+        <!-- menampilkan data sensor -->
+        <table class="w3-table w3-striped w3-white w3-bordered w3-border" id="tbl_sensor"> <!-- w3-table w3-striped w3-white -->
+        <thead>
+          <tr>
+            <td><b>No</b></td>
+            <td><b>Nama</b></td>
+            <td><b>Lokasi</b></td>
+            <td class="w3-center"><b>pH</b></td>
+            <td class="w3-center"><b>DO</b></td>
+            <td class="w3-center"><b>Temp</b></td>
+            <td class="w3-center"><b>Salinity</b></td>
+            <td class="w3-center"><b>Turbidity</b></td>
+            <td class="w3-center"><b>IP</b></td>
+            <td class="w3-center"><b>Status</b></td>
+            <td class="w3-center"><b>Waktu</b></td>
+            <td><b>Kelola</b></td>
+          </tr>
+        </thead>
+        <tbody id="tbl_body_sensor"></tbody>
+          
+        </table>
+
+        <!-- pagination untuk tabel sensor -->
+          <div class="w3-container w3-margin-top">
+            <div class="w3-center">
+              <div class="w3-bar w3-border" id="page-sensor">
+                <!-- <a href="#" class="w3-button" onclick="prevPageSensor()">&laquo;</a>
+                <a href="#" class="w3-button" onclick="openPage(1)">1</a>
+                <a href="#" class="w3-button" onclick="openPage(2)">2</a>
+                <a href="#" class="w3-button" onclick="openPage(3)">3</a>
+                <a href="#" class="w3-button" onclick="nextPageSensor()">&raquo;</a> -->
+              </div>
+            </div>
+          </div>
+
+          <!-- modal CRUD Data Sensor-->
+
+          <!-- modal u/ insert -->
+          <div class="w3-container">
+            <div id="modal-tambah" class="w3-modal w3-cols">
+              <div class="w3-col l3 w3-left">&nbsp;</div>
+              <div class="w3-col l3 w3-right">&nbsp;</div>
+
+              <div class="w3-modal-content w3-animate-top w3-card-4 w3-col l6">
+                <header class="w3-container w3-teal"> 
+                  <span onclick="document.getElementById('modal-tambah').style.display='none'" 
+                  class="w3-button w3-display-topright">&times;</span>
+                  <h3>Tambah Data Sensor</h3>
+                </header>
+                <br>
+                <div class="w3-container">
+                  <div class="w3-col">
+
+                    <div class="w3-row w3-margin-bottom">
+                      <label class="w3-label w3-col l3">Lokasi Stasiun</label>
+                      <input class="w3-col l9 w3-input w3-border w3-round" type="text" id="nama-sensor" placeholder="Stasiun XX">
+                    </div>
+
+                    <div class="w3-row w3-margin-bottom">
+                      <label class="w3-label w3-col l3">Nama Kelurahan</label>
+                      <input class="w3-col l9 w3-input w3-border w3-round" type="text" id="lokasi-sensor" placeholder="Kel. Kelurahan">
+                    </div>
+
+                    <div class="w3-row w3-margin-bottom">
+                      <label class="w3-label w3-col l3">Geometry</label>
+                      <input class="w3-col l9 w3-input w3-border w3-round" type="text" id="geom-sensor" placeholder="POINT(112.3243XXXXX -7.2434XXXXX)">
+                    </div>
+
+                    <div class="w3-row w3-margin-bottom">
+                      <label class="w3-label w3-col l3">Nilai pH</label>
+                      <input class="w3-col l9 w3-input w3-border w3-round" type="text" id="ph-sensor" placeholder="xx.xx">
+                    </div>
+
+                    <div class="w3-row w3-margin-bottom">
+                      <label class="w3-label w3-col l3">Nilai DO</label>
+                      <input class="w3-col l9 w3-input w3-border w3-round" type="text" id="do-sensor" placeholder="xx.xx">
+                    </div>
+
+                    <div class="w3-row w3-margin-bottom">
+                      <label class="w3-label w3-col l3">Nilai Temperatur</label>
+                      <input class="w3-col l9 w3-input w3-border w3-round" type="text" id="temp-sensor" placeholder="xx.xx">
+                    </div>
+
+                    <div class="w3-row w3-margin-bottom">
+                      <label class="w3-label w3-col l3">Nilai Salinitas</label>
+                      <input class="w3-col l9 w3-input w3-border w3-round" type="text" id="sal-sensor" placeholder="xx.xx">
+                    </div>
+
+                    <div class="w3-row w3-margin-bottom">
+                      <label class="w3-label w3-col l3">Nilai Kecerahan</label>
+                      <input class="w3-col l9 w3-input w3-border w3-round" type="text" id="turb-sensor" placeholder="xx.xx">
+                    </div>
+
+                    <div class="w3-row w3-margin-bottom">
+                      <label class="w3-label w3-col l3">Waktu Input</label>
+                      <input class="w3-col l9 w3-input w3-border w3-round" type="datetime-local" id="wkt-sensor">
+                    </div>
+                    <br>
+                  </div>
+
+                  <div class="w3-right w3-margin-bottom">
+                    <button class="w3-button w3-red w3-round w3-text-white" id="btn-batal-tambah" onclick="document.getElementById('modal-tambah').style.display='none'">Batal</button>
+                    <button type="button" class="w3-button w3-green w3-round" id="btn-simpan-tambah" onclick="insertDataSensor()">Simpan</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- modal u/ edit -->
+          <div class="w3-container">
+            <div  id="modal-sunting" class="w3-modal w3-cols">
+      
+              <div class="w3-col l3 w3-left">&nbsp;</div>
+              <div class="w3-col l3 w3-right">&nbsp;</div>
+
+              <div class="w3-modal-content w3-animate-top w3-card-4 w3-col l6">
+                <header class="w3-container w3-orange"> 
+                  <span onclick="document.getElementById('modal-sunting').style.display='none'" 
+                  class="w3-button w3-display-topright">&times;</span>
+                  <h3 class="w3-text-white">Edit Data Sensor</h3>
+                </header>
+                <br>
+                <div class="w3-container">
+                  <div class="w3-col">
+
+                    <div class="w3-row w3-margin-bottom">
+                      <label class="w3-label w3-col l3">Lokasi Stasiun</label>
+                      <input class="w3-col l9 w3-input w3-border w3-round" type="text" id="edit-nama-sensor" placeholder="Stasiun XX">
+                    </div>
+
+                    <div class="w3-row w3-margin-bottom">
+                      <label class="w3-label w3-col l3">Nama Kelurahan</label>
+                      <input class="w3-col l9 w3-input w3-border w3-round" type="text" id="edit-lokasi-sensor" placeholder="Kel. Kelurahan">
+                    </div>
+
+                    <div class="w3-row w3-margin-bottom">
+                      <label class="w3-label w3-col l3">Geometry</label>
+                      <input class="w3-col l9 w3-input w3-border w3-round" type="text" id="edit-geom-sensor" placeholder="POINT(112.3243XXXXX -7.2434XXXXX)">
+                    </div>
+
+                    <div class="w3-row w3-margin-bottom">
+                      <label class="w3-label w3-col l3">Nilai pH</label>
+                      <input class="w3-col l9 w3-input w3-border w3-round" type="text" id="edit-ph-sensor" placeholder="xx.xx">
+                    </div>
+
+                    <div class="w3-row w3-margin-bottom">
+                      <label class="w3-label w3-col l3">Nilai DO</label>
+                      <input class="w3-col l9 w3-input w3-border w3-round" type="text" id="edit-do-sensor" placeholder="xx.xx">
+                    </div>
+
+                    <div class="w3-row w3-margin-bottom">
+                      <label class="w3-label w3-col l3">Nilai Temperatur</label>
+                      <input class="w3-col l9 w3-input w3-border w3-round" type="text" id="edit-temp-sensor" placeholder="xx.xx">
+                    </div>
+
+                    <div class="w3-row w3-margin-bottom">
+                      <label class="w3-label w3-col l3">Nilai Salinitas</label>
+                      <input class="w3-col l9 w3-input w3-border w3-round" type="text" id="edit-sal-sensor" placeholder="xx.xx">
+                    </div>
+
+                    <div class="w3-row w3-margin-bottom">
+                      <label class="w3-label w3-col l3">Nilai Kecerahan</label>
+                      <input class="w3-col l9 w3-input w3-border w3-round" type="text" id="edit-turb-sensor" placeholder="xx.xx">
+                    </div>
+
+                    <div class="w3-row w3-margin-bottom">
+                      <label class="w3-label w3-col l3">Waktu Input</label>
+                      <input class="w3-col l9 w3-input w3-border w3-round" type="datetime-local" id="edit-wkt-sensor">
+                    </div>
+                    <br>
+                  </div>
+
+                  <div class="w3-right w3-margin-bottom">
+                    <button class="w3-button w3-red w3-round" id="btn-batal-sunting" onclick="document.getElementById('modal-sunting').style.display='none'">Batal</button>
+                    <button type="button" class="w3-button w3-orange w3-round w3-text-white" id="btn-update-sunting" onclick="putEditSensor()">Update</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- modal u/ hapus -->
+          <div class="w3-container">
+            <div id="modal-del" class="w3-modal w3-cols">
+
+              <div class="w3-col l4 w3-left">&nbsp;</div>
+              <div class="w3-col l4 w3-right">&nbsp;</div>
+              <div class="w3-modal-content w3-animate-top w3-card-4 w3-col l4">
+                <div class="w3-container">
+                  <div class="w3-margin-bottom w3-margin-top">
+                    <p>Apakah anda yakin ingin menghapus data ini?</p>
+                  </div>
+                  <div class="w3-right w3-margin-top w3-margin-bottom">
+                    <button class="w3-button w3-red w3-round w3-text-white w3-padding-small" id="btn-batal-del" onclick="document.getElementById('modal-del').style.display='none'">Batal</button>
+                    <button type="button" class="w3-button w3-grey w3-round w3-text-white w3-padding-small" id="btn-hapus-del" onclick="hapusDataSensor()">OK</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- tampilan map -->
+          <div class="w3-padding-top">
+            <h4>Lokasi Pengambilan Data</h4>
+          </div>
+            <div class="w3-grey w3-border">
+              <div id="map" style="width: 100%; height: 400px"></div>
+              <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCw4g4V9MtupcGa7PjP6APSX0UFNyOe-08"></script>
+            </div>
+            <br>
+            <!-- tampilan statistik IP -->
+            <div class="w3-margin-top">
+              <!-- <div class="w3-white">&nbsp;</div> -->
+              <div id="linechart_material" style="height:300;" class="w3-padding w3-white"></div>
+            </div>
+
+              <!-- script u/ data sensor -->
+              <script>
+
+                //untuk search stasiun
+                function search(){
+                  let search = document.getElementById("search-bar");
+                  let filter = search.value.toUpperCase();
+                  let tabel = document.getElementById("tbl_sensor");
+                  let tr = tabel.getElementsByTagName("tr");
+                  // console.log(tr);
+
+                  for (var i = 0; i < tr.length; i++) {
+                    let td = tr[i].getElementsByTagName("td")[1];
+                    // console.log(td);
+
+                    if (td) {
+                      if (td.innerHTML.toUpperCase().indexOf(filter) > -1){
+                        tr[i].style.display = "";
+                      } else {
+                        tr[i].style.display = "none";
+                      }
+                    }
+                  }
+                }
+
+                //~ pagination sensor statis
+                let hal;
+                let maxHal;
+
+                function getPagination(){
+                  let xhr = new XMLHttpRequest();
+
+                  xhr.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                      openPage(JSON.parse(this.responseText));
+                    }
+                  };
+
+                  xhr.open("GET","/api/datasensor?hal=" + hal, true);
+                  xhr.send();
+                }
+
+                function openPage(halaman) {
+                  if (halaman < 1) {
+                    halaman = 1;
+                  } else if(halaman >= maxHal){
+                    halaman = maxHal;
+                  }
+
+                  hal = halaman;
+                  resetTabelSensor();
+                  showTableSensor();
+                }
+
+                function nextPageSensor(){
+                  openPage(hal+1);
+                }
+
+                function prevPageSensor(){
+                  openPage(hal-1);
+                }
+
+                //~ finish pagination
+
+                //~ pagination dinamis untuk sensor
+                let halamanMax;
+                // console.log(halamanMax);
+
+                function getMaxPage(){
+                  let xhr = new XMLHttpRequest();
+
+                  xhr.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                      halamanMax = JSON.parse(this.responseText);
+                      fillPagination();
+                      openPage(1);
+                    }
+                  };
+
+                  xhr.open("GET", "/api/max-hal/datasensor", true);
+                  xhr.send();
+                }
+
+                getMaxPage();
+
+                function fillPagination(){
+                  let pag = document.getElementById("page-sensor");
+
+                  for (var i = 0; i < halamanMax+2; i++) {
+                    // console.log(i);
+                    let a = document.createElement("a");
+                    let aTeks = document.createTextNode(i);
+
+                    a.setAttribute("onclick", "openPage(" + i + ")");
+
+                    if (i == 0) {
+                      aTeks = document.createTextNode('\u00AB');
+                      a.setAttribute("onclick", "prevPageSensor()");
+                    } else if (i == halamanMax+1) {
+                      console.log(i);
+                      aTeks = document.createTextNode('\u00BB');
+                      a.setAttribute("onclick", "nextPageSensor()");
+                    }
+
+                    a.setAttribute("class","w3-button");
+
+                    a.appendChild(aTeks);
+                    pag.appendChild(a);
+
+
+                  }
+                }
+                //~ finish pagination
+
+                var map;
+                let markers = [];
+
+                function initMap(data = []) {
+                  var myLatLng = {lat: -7.643314, lng: 111.356045};
+
+                  map = new google.maps.Map(document.getElementById('map'), {
+                    center: myLatLng,
+                    zoom: 8
+                  });
+
+                  if(data.length > 0) {
+                    data.forEach(function(datum) {
+                      var marker = new google.maps.Marker({
+                        position: datum.koordinat,
+                        map: map,
+                        title: datum.nama
+                      });
+                    });
+                  }
+                }
+
+                function fillData(data) {
+                  let duatua = [];
+
+                  data.forEach(function(datum) {
+                    let koordinat = datum.geom.replace("POINT(","").replace(")","").split(" ");
+                    let latLng = {
+                      lat: parseFloat(koordinat[1]),
+                      lng: parseFloat(koordinat[0])
+                    };
+
+                    duatua.push({
+                      koordinat: latLng,
+                      nama: datum.nama
+                    });
+                  });
+                  // console.log(duatua);
+                  initMap(duatua);
+                }
+
+                function showTableSensor(){
+                  let nomor = ((hal-1)*10) + 1;
+                  let tbl;
+                  let xmlhttp = new XMLHttpRequest();
+
+                  xmlhttp.onreadystatechange = function() {
+                    if(this.readyState == 4 && this.status == 200) {
+                      // console.log(JSON.parse(this.responseText));
+                      let data = JSON.parse(this.responseText);
+                      let tabelBody = document.getElementById("tbl_body_sensor");
+
+                      data.forEach(function(datum){
+                        // console.log(datum);
+                        let trStasiun = document.createElement("tr");
+                        let tdNomor = document.createElement("td");
+                        let tdNama = document.createElement("td");
+                        let tdLokasi = document.createElement("td");
+                        let tdPh = document.createElement("td");
+                        let tdDo = document.createElement("td");
+                        let tdTemp = document.createElement("td");
+                        let tdSal = document.createElement("td");
+                        let tdTurb = document.createElement("td");
+                        let tdIp = document.createElement("td");
+                        let tdStatus = document.createElement("td");
+                        let tdWkt = document.createElement("td");
+                        let tdKelola = document.createElement("td");
+                        let btnEdit = document.createElement("button");
+                        let btnHapus = document.createElement("button");
+
+                        trStasiun.setAttribute("class", "baris-sensor");
+                        btnEdit.setAttribute("class", "w3-button w3-orange w3-round-small w3-padding-small w3-text-white");
+                        btnEdit.setAttribute("onclick", "updateDataSensor(" + datum.idSensor + ")");
+                        btnHapus.setAttribute("class", "w3-button w3-red w3-round-small w3-padding-small");
+                        btnHapus.setAttribute("onclick", "tampilMdlHapusSensor(" + datum.idSensor + ")");
+                        tdPh.setAttribute("class", "w3-center");
+                        tdDo.setAttribute("class", "w3-center");
+                        tdTemp.setAttribute("class", "w3-center");
+                        tdSal.setAttribute("class", "w3-center");
+                        tdTurb.setAttribute("class", "w3-center");
+                        tdIp.setAttribute("class", "w3-center");
+                        tdStatus.setAttribute("class", "w3-center");
+
+                        let nomorTeks = document.createTextNode(nomor);
+                        let namaTeks = document.createTextNode(datum.nama);
+                        let lokasiTeks = document.createTextNode(datum.lokasi);
+                        let phTeks = document.createTextNode(datum.nilaiPh);
+                        let doTeks = document.createTextNode(datum.nilaiDo);
+                        let tempTeks = document.createTextNode(datum.nilaiSuhu);
+                        let salTeks = document.createTextNode(datum.nilaiSal);
+                        let turbTeks = document.createTextNode(datum.nilaiCerah);
+                        let ipTeks = document.createTextNode("IP");
+                        let statusTeks = document.createTextNode("status");
+                        let wktTeks = document.createTextNode(datum.wktInput);
+                        let editTeks = document.createTextNode("edit");
+                        let hapusTeks = document.createTextNode("hapus");
+                        let spasi = document.createTextNode(" ");
+
+                        // namaParent.appendChild(namaChild)
+                        btnEdit.appendChild(editTeks);
+                        btnHapus.appendChild(hapusTeks);
+                        tdNomor.appendChild(nomorTeks);
+                        tdNama.appendChild(namaTeks);
+                        tdLokasi.appendChild(lokasiTeks);
+                        tdPh.appendChild(phTeks);
+                        tdDo.appendChild(doTeks);
+                        tdTemp.appendChild(tempTeks);
+                        tdSal.appendChild(salTeks);
+                        tdTurb.appendChild(turbTeks);
+                        tdIp.appendChild(ipTeks);
+                        tdStatus.appendChild(statusTeks);
+                        tdWkt.appendChild(wktTeks);
+                        tdKelola.appendChild(btnEdit);
+                        tdKelola.appendChild(spasi);
+                        tdKelola.appendChild(btnHapus);
+
+                        trStasiun.appendChild(tdNomor);
+                        trStasiun.appendChild(tdNama)
+                        trStasiun.appendChild(tdLokasi);
+                        trStasiun.appendChild(tdPh);
+                        trStasiun.appendChild(tdDo);
+                        trStasiun.appendChild(tdTemp);
+                        trStasiun.appendChild(tdSal);
+                        trStasiun.appendChild(tdTurb);
+                        trStasiun.appendChild(tdIp);
+                        trStasiun.appendChild(tdStatus);
+                        trStasiun.appendChild(tdWkt);
+                        trStasiun.appendChild(tdKelola);
+                        tabelBody.appendChild(trStasiun);
+
+                        // console.log("sensor"+nomor);
+                        nomor++;
+                      });
+                    }
+                  };
+                  xmlhttp.open("GET", "/api/datasensor?hal=" + hal, true);
+                  xmlhttp.send();
+                }
+
+                 function getDataSensor() {
+                  var xhttp = new XMLHttpRequest();
+                  
+                  xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                      fillData(JSON.parse(this.responseText));
+                    }
+                  };
+
+                  xhttp.open("GET", "/api/datasensorAll", true);
+                  xhttp.send();
+                }
+
+                // tambah data sensor
+                function insertDataSensor(){
+                  let lokSensor = document.getElementById("lokasi-sensor").value;
+                  let namaSensor = document.getElementById("nama-sensor").value;
+                  let geomSensor = document.getElementById("geom-sensor").value;
+                  let phSensor = document.getElementById("ph-sensor").value;
+                  let doSensor = document.getElementById("do-sensor").value;
+                  let tempSensor = document.getElementById("temp-sensor").value;
+                  let salSensor = document.getElementById("sal-sensor").value;
+                  let turbSensor = document.getElementById("turb-sensor").value;
+                  let wktSensor = document.getElementById("wkt-sensor").value;
+
+                  let JSONObject = {
+                    "lokasi" : lokSensor,
+                    "nama" : namaSensor,
+                    "geom" : geomSensor,
+                    "nilaiPh" : phSensor,
+                    "nilaiDo" : doSensor,
+                    "nilaiSuhu" : tempSensor,
+                    "nilaiSal" : salSensor,
+                    "nilaiCerah" : turbSensor,
+                    "wktInput" : wktSensor
+                  };
+                  postDataSensor(JSONObject);
+                }
+
+                function postDataSensor(data){
+                  let xhr = new XMLHttpRequest();
+
+                  xhr.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                      if(JSON.parse(this.responseText))
+                      {
+                        document.getElementById("modal-tambah").style.display = "none";
+                        resetTabelSensor();
+                        showTableSensor();
+                      }
+                    }
+                  };
+
+                  xhr.open("POST", "/api/datasensor", true);
+                  xhr.setRequestHeader("Content-type","application/json");
+                  xhr.send(JSON.stringify(data));
+                }
+
+                function resetTabelSensor(){
+                  let barisSensor = document.getElementsByClassName("baris-sensor");
+
+                  while(barisSensor.length){
+                    barisSensor[0].parentNode.removeChild(barisSensor[0]);
+                  }
+                }
+                // finish
+
+                // edit & update data sensor
+                var idEdit = 0;
+                function updateDataSensor(id){
+                  let xhr = new XMLHttpRequest();
+
+                  xhr.onreadystatechange = function(){
+                    if (this.readyState == 4 && this.status == 200) {
+                      idEdit = id;
+
+                      editModalSensor(JSON.parse(this.responseText));
+                    }
+                  };
+
+                  xhr.open("GET", "/api/datasensor/" + id, true);
+                  xhr.send();
+                }
+
+                function editModalSensor(data){
+                    console.log(data)
+                    document.getElementById("edit-nama-sensor").value = data.nama;
+                    document.getElementById("edit-lokasi-sensor").value = data.lokasi;
+                    document.getElementById("edit-geom-sensor").value = data.geom;
+                    document.getElementById("edit-ph-sensor").value = data.nilaiPh;
+                    document.getElementById("edit-do-sensor").value = data.nilaiDo;
+                    document.getElementById("edit-temp-sensor").value = data.nilaiSuhu;
+                    document.getElementById("edit-sal-sensor").value = data.nilaiSal;
+                    document.getElementById("edit-turb-sensor").value = data.nilaiCerah;
+                    document.getElementById("edit-wkt-sensor").value = data.wktInput.replace(" ", "T");
+                    // console.log(data.wktInput);
+
+                    document.getElementById("modal-sunting").style.display = "block";
+                  
+                }
+
+                // meletakkan data sensor ke db
+                function putEditSensor(){
+                    let editNama = document.getElementById("edit-nama-sensor").value;
+                    let editLokasi = document.getElementById("edit-lokasi-sensor").value;
+                    let editGeom = document.getElementById("edit-geom-sensor").value;
+                    let editPh = document.getElementById("edit-ph-sensor").value;
+                    let editDo = document.getElementById("edit-do-sensor").value;
+                    let editTemp = document.getElementById("edit-temp-sensor").value;
+                    let editSal = document.getElementById("edit-sal-sensor").value;
+                    let editTurb = document.getElementById("edit-turb-sensor").value;
+                    let editWkt = document.getElementById("edit-wkt-sensor").value;
+
+                  let editJSONObject = {
+                    "idSensor" : idEdit,
+                    "lokasi" : editLokasi,
+                    "nama" : editNama,
+                    "geom" : editGeom,
+                    "nilaiPh" : editPh,
+                    "nilaiDo" : editDo,
+                    "nilaiSuhu" : editTemp,
+                    "nilaiSal" : editSal,
+                    "nilaiCerah" : editTurb,
+                    "wktInput" : editWkt
+                  };
+                  postEditSensor(editJSONObject);
+                }
+
+                function postEditSensor(data){
+                  let xhttp = new XMLHttpRequest();
+                  
+                  xhttp.onreadystatechange = function(){
+                    // console.log(this);
+                    if (this.readyState == 4 && this.status == 200) {
+                      if (JSON.parse(this.responseText)) 
+                      {
+                        resetTabelSensor();
+                        showTableSensor();
+                        document.getElementById("modal-sunting").style.display = "none";
+                      }
+                    }
+                  };
+
+                  xhttp.open("PUT", "/api/datasensor", true);
+                  xhttp.setRequestHeader("Content-type","application/json");
+                  // console.log(data);
+                  xhttp.send(JSON.stringify(data));
+                }
+                // finis update
+
+                //fungsi u/ hapus
+                let idToDelete = 0;
+                function tampilMdlHapusSensor(id){
+                  document.getElementById('modal-del').style.display='block';
+                  idToDelete = id;
+                }
+
+                function hapusDataSensor(){
+                  let xhr = new XMLHttpRequest();
+
+                  xhr.onreadystatechange = function(){
+                    if (this.readyState == 4 && this.status == 200) {
+                      if (JSON.parse(this.responseText))
+                      {
+                        document.getElementById("modal-del").style.display = "none";
+                        resetTabelSensor();
+                        showTableSensor();
+                      }
+                    }
+                  };
+                  console.log(idToDelete);
+                  xhr.open("DELETE", "/api/datasensor/" +idToDelete, true);
+                  xhr.send();
+                }
+                //finish delete
+
+                //tampilan statistik
+                google.charts.load('current', {'packages':['line']});
+                google.charts.setOnLoadCallback(drawChart);
+
+                function drawChart() {
+
+                  var data = new google.visualization.DataTable();
+                  data.addColumn('number', 'Day');
+                  data.addColumn('number', 'Guardians of the Galaxy');
+                  data.addColumn('number', 'The Avengers');
+                  data.addColumn('number', 'Transformers: Age of Extinction');
+
+                  data.addRows([
+                    [1,  37.8, 80.8, 41.8],
+                    [2,  30.9, 69.5, 32.4],
+                    [3,  25.4,   57, 25.7],
+                    [4,  11.7, 18.8, 10.5],
+                    [5,  11.9, 17.6, 10.4],
+                    [6,   8.8, 13.6,  7.7],
+                    [7,   7.6, 12.3,  9.6],
+                    [8,  12.3, 29.2, 10.6],
+                    [9,  16.9, 42.9, 14.8],
+                    [10, 12.8, 30.9, 11.6],
+                    [11,  5.3,  7.9,  4.7],
+                    [12,  6.6,  8.4,  5.2],
+                    [13,  4.8,  6.3,  3.6],
+                    [14,  4.2,  6.2,  3.4]
+                  ]);
+
+                  var options = {
+                    // chart: {
+                    //   title: 'Box Office Earnings in First Two Weeks of Opening',
+                    //   subtitle: 'in millions of dollars (USD)'
+                    // },
+                    width: '100%',
+                    height: 500
+                  };
+
+                  var chart = new google.charts.Line(document.getElementById('linechart_material'));
+
+                  chart.draw(data, google.charts.Line.convertOptions(options));
+                }
+                //finish statistik
+
+                showTableSensor();
+                getDataSensor();
+                initMap();
+                </script>
+            </div>
+          </div>
+        </div>
+
+        <script>
+            
+          </script>
+
+          <!-- menampilkan data ikan -->
+          <div id="data-ikan" style="display: none">
+            <div class="w3-cols">
+              <div class="w3-col l4">
+                <h4>Data Ikan</h4>
+              </div>
+              <div class="w3-col l4">&nbsp;</div>
+              <div class="w3-col l4">
+                <a class="w3-button w3-green w3-round-small w3-right w3-text-white" 
+                onclick="document.getElementById('modal-add').style.display='block'">Tambah Data</a>
+              </div>
+            </div>
+            
+            <table class="w3-table w3-striped w3-white w3-container w3-border w3-bordered" id="tbl_ikan"> <!-- w3-table w3-striped w3-white -->
+            <thead>
+              <tr>
+                <td><b>No</b></td>
+                <td><b>Jenis Ikan</b></td>
+                <td class="w3-center"><b>Jumlah Ikan Sehat</b></td>
+                <td class="w3-center"><b>Jumlah Ikan Sakit</b></td>
+                <td class="w3-center"><b>Waktu</b></td>
+                <td class="w3-center"><b>Total</b></td>
+                <td class="w3-center"><b>Kelola</b></td>
+              </tr>
+            </thead>
+            <tbody id="tbl_body_ikan"></tbody>
+            </table>
+            <br>
+
+            <!-- pagination untuk tabel ikan -->
+            <div class="w3-container">
+              <div class="w3-center">
+                <div class="w3-bar w3-border">
+                  <a href="#" class="w3-button" onclick="prevPageSensor()">&laquo;</a>
+                  <a href="#" class="w3-button" onclick="openPage(1)">1</a>
+                  <a href="#" class="w3-button" onclick="openPage(2)">2</a>
+                  <a href="#" class="w3-button" onclick="openPage(3)">3</a>
+                  <a href="#" class="w3-button" onclick="openPage(4)">4</a>
+                  <a href="#" class="w3-button" onclick="nextPageSensor()">&raquo;</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- finish -->
+
+        <!-- modal CRUD Data Ikan-->
+          <!-- modal u/ insert -->
+          <div class="w3-container">
+            <div id="modal-add" class="w3-modal w3-cols">
+              <div class="w3-col l3 w3-left">&nbsp;</div>
+              <div class="w3-col l3 w3-right">&nbsp;</div>
+
+              <div class="w3-modal-content w3-animate-top w3-card-4 w3-col l6">
+                <header class="w3-container w3-teal"> 
+                  <span onclick="document.getElementById('modal-add').style.display='none'" 
+                  class="w3-button w3-display-topright">&times;</span>
+                  <h3>Tambah Data Ikan</h3>
+                </header>
+                <br>
+                <div class="w3-container">
+                  <div class="w3-col">
+                    <div class="w3-row w3-margin-bottom">
+                      <label class="w3-label w3-col l3">Pilih</label>
+                      <select id="jenis_ikan" class="w3-input w3-col l9 w3-border w3-round">
+                        <option> --Jenis Ikan-- </option>
+                      </select>
+                    </div>
+
+                    <div class="w3-row w3-margin-bottom">
+                      <label class="w3-label w3-col l3">Jumlah Ikan Sehat</label>
+                      <input class="w3-col l9 w3-input w3-border w3-round" type="text" id="jml_ikan_sehat" placeholder="Jumlah Ikan">
+                    </div>
+
+                    <div class="w3-row w3-margin-bottom">
+                      <label class="w3-label w3-col l3">Jumlah Ikan Sakit </label>
+                      <input class="w3-col l9 w3-input w3-border w3-round" type="text" id="jml_ikan_skt" placeholder="Jumlah Ikan">
+                    </div>
+
+                    <div class="w3-row w3-margin-bottom">
+                      <label class="w3-label w3-col l3">Waktu </label>
+                      <input class="w3-col l9 w3-input w3-border w3-round" type="datetime-local" id="wkt_input">
+                    </div>
+                    <br>
+                  </div>
+
+                  <div class="w3-right w3-margin-bottom">
+                    <button class="w3-button w3-red w3-round w3-text-white" id="btnBatal" onclick="document.getElementById('modal-add').style.display='none'">Batal</button>
+                    <button type="button" class="w3-button w3-green w3-round" id="btnSimpan" onclick="insertDataIkan()">Simpan</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- modal u/ edit -->
+          <div class="w3-container">
+            <div id="modal-edit" class="w3-modal w3-cols">
+      
+              <div class="w3-col l3 w3-left">&nbsp;</div>
+              <div class="w3-col l3 w3-right">&nbsp;</div>      
+              <div class="w3-modal-content w3-animate-top w3-card-4 w3-col l6">
+                <header class="w3-container w3-orange"> 
+                  <span onclick="document.getElementById('modal-edit').style.display='none'" 
+                  class="w3-button w3-display-topright">&times;</span>
+                  <h3 class="w3-text-white">Edit Data Ikan</h3>
+                </header>
+                <div class="w3-container">
+                  <div class="w3-col">
+                    <div class="w3-row w3-margin-bottom w3-margin-top">
+                      <label class="w3-label w3-col l3">Pilih</label>
+                      <select id="edit_jenis_ikan" class="w3-input w3-col l9 w3-border w3-round">
+                        <option> --Jenis Ikan-- </option>
+                      </select>
+                    </div>
+
+                    <div class="w3-row w3-margin-bottom">
+                      <label class="w3-label w3-col l3">Jumlah Ikan Sehat</label>
+                      <input class="w3-col l9 w3-input w3-border w3-round" type="text" id="edit_ikan_sehat" placeholder="Jumlah Ikan">
+                    </div>
+
+                    <div class="w3-row w3-margin-bottom">
+                      <label class="w3-label w3-col l3">Jumlah Ikan Sakit </label>
+                      <input class="w3-col l9 w3-input w3-border w3-round" type="text" id="edit_ikan_skt" placeholder="Jumlah Ikan">
+                    </div>
+
+                    <div class="w3-row w3-margin-bottom">
+                      <label class="w3-label w3-col l3">Waktu </label>
+                      <input class="w3-col l9 w3-input w3-border w3-round" type="datetime-local" id="edit_wkt_input">
+                    </div>
+                  </div>
+
+                  <div class="w3-right w3-margin-bottom">
+                    <button class="w3-button w3-red w3-round" id="btnBatal" onclick="document.getElementById('modal-edit').style.display='none'">Batal</button>
+                    <button type="button" class="w3-button w3-orange w3-round w3-text-white" id="btnUpdate" onclick="putEditIkan()">Update</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- modal u/ hapus -->
+          <div class="w3-container">
+            <div id="modal-hapus" class="w3-modal w3-cols">
+
+              <div class="w3-col l4 w3-left">&nbsp;</div>
+              <div class="w3-col l4 w3-right">&nbsp;</div>
+              <div class="w3-modal-content w3-animate-top w3-card-4 w3-col l4">
+                <div class="w3-container">
+                  <div class="w3-margin-bottom w3-margin-top">
+                    <p>Apakah anda yakin ingin menghapus data ini?</p>
+                  </div>
+                  <div class="w3-right w3-margin-top w3-margin-bottom">
+                    <button class="w3-button w3-red w3-round w3-text-white w3-padding-small" id="btnBatal" onclick="document.getElementById('modal-hapus').style.display='none'">Batal</button>
+                    <button type="button" class="w3-button w3-grey w3-round w3-text-white w3-padding-small" id="btnHapus" onclick="hapusDataIkan()">OK</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          </div>
+      </div>
+    </div>
+
+    <!-- fungsi-fungsi data ikan -->
+          <script>
+            let xmlhttp = new XMLHttpRequest();
+
+            function showTableIkan(){
+              let xmlhttp = new XMLHttpRequest();
+              xmlhttp.onreadystatechange = function() {
+                let nomor = 1;
+                
+                if(this.readyState == 4 && this.status == 200) {
+                  // console.log(JSON.parse(this.responseText));
+                  let data = JSON.parse(this.responseText);
+                  let tabelBody = document.getElementById("tbl_body_ikan");
+
+                  data.forEach(function(ikan){
+                    //console.log(ikan);
+                    let trIkan = document.createElement("tr");
+                    let tdNomor = document.createElement("td");
+                    let tdJenis = document.createElement("td");
+                    let tdJmlIkanSehat = document.createElement("td");
+                    let tdJmlIkanSakit = document.createElement("td");
+                    let tdWkt = document.createElement("td");
+                    let tdTotal = document.createElement("td");
+                    let tdKelola = document.createElement("td");
+                    let btnEdit = document.createElement("button");
+                    let btnHapus = document.createElement("button");
+                    // let linkHapus = document.createElement("a");
+
+                    trIkan.setAttribute("class", "baris-ikan");
+                    btnEdit.setAttribute("class", "w3-button w3-orange w3-round-small w3-padding-small w3-text-white");
+                    btnEdit.setAttribute("onclick", "updateDataIkan(" + ikan.idIkan + ")");
+                    btnHapus.setAttribute("class", "w3-button w3-red w3-round-small w3-padding-small");
+                    btnHapus.setAttribute("onclick", "tampilMdlHapusIkan(" + ikan.idIkan + ")");
+                    // linkHapus.setAttribute("href", "");
+
+                    tdJmlIkanSehat.setAttribute("class", "w3-center");
+                    tdJmlIkanSakit.setAttribute("class", "w3-center");
+                    tdTotal.setAttribute("class", "w3-center");
+                    tdKelola.setAttribute("class", "w3-center");
+                    tdWkt.setAttribute("class", "w3-center");
+
+                    let nomorTeks = document.createTextNode(nomor);
+                    let jenisTeks = document.createTextNode(ikan.jenisIkan);
+                    let jmlIkanSehatTeks = document.createTextNode(ikan.jmlIkanSehat);
+                    let jmlIkanSakitTeks = document.createTextNode(ikan.jmlIkanSakit);
+                    let wktTeks = document.createTextNode(ikan.wktInput);
+                    let totalTeks = document.createTextNode(parseFloat(ikan.jmlIkanSehat)+parseFloat(ikan.jmlIkanSakit));
+                    let editTeks = document.createTextNode("edit");
+                    let hapusTeks = document.createTextNode("hapus");
+                    let spasi = document.createTextNode(" ");
+
+                    // console.log("ikan" +nomor);
+                    nomor++;
+
+                    // namaParent.appendChild(namaChild)
+                    tdNomor.appendChild(nomorTeks);
+                    tdJenis.appendChild(jenisTeks);
+                    tdJmlIkanSehat.appendChild(jmlIkanSehatTeks);
+                    tdJmlIkanSakit.appendChild(jmlIkanSakitTeks);
+                    tdWkt.appendChild(wktTeks);
+                    tdTotal.appendChild(totalTeks);
+                    btnEdit.appendChild(editTeks);
+                    btnHapus.appendChild(hapusTeks);
+                    tdKelola.appendChild(btnEdit);
+                    tdKelola.appendChild(spasi);
+                    tdKelola.appendChild(btnHapus);
+
+                    trIkan.appendChild(tdNomor);
+                    trIkan.appendChild(tdJenis);
+                    trIkan.appendChild(tdJmlIkanSehat);
+                    trIkan.appendChild(tdJmlIkanSakit);
+                    trIkan.appendChild(tdWkt);
+                    trIkan.appendChild(tdTotal);
+                    trIkan.appendChild(tdKelola);
+                    tabelBody.appendChild(trIkan);
+                  });
+                }
+              };
+
+              xmlhttp.open("GET", "/api/dataikan", true);
+              xmlhttp.send();
+            }
+
+            showTableIkan();
+          </script>
+
+          <script>
+          // pengambilan data ikan dr /api/dataikan
+            function tampilData(banyakIkan = []) {
+              if(banyakIkan.length > 0) {
+                banyakIkan.forEach(function(ikan) {
+                  var marker = new google.maps.Marker({
+                    position: ikan.koordinat,
+                    map: map,
+                    title: ikan.nama
+                  });
+                });
+              }
+            }
+
+            function getData() {
+              var xhttp = new XMLHttpRequest();
+              
+              xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                  fillData(JSON.parse(this.responseText));
+                }
+              };
+
+              xhttp.open("GET", "/api/dataikan", true);
+              xhttp.send();
+            }
+
+            function fillData(banyakIkan) {
+              let duatua = [];
+
+              banyakIkan.forEach(function(ikan) {
+                duatua.push({
+                  jenis: ikan.jenis_ikan,
+                  ikanSehat: ikan.jml_ikan_sehat,
+                  ikanSakit: ikan.jml_ikan_sakit
+                });
+              });
+            tampilData(duatua);
+          }
+          // finish
+
+            // fungsi insert data ikan
+            function insertDataIkan(){
+              let jnsIkan = document.getElementById("jenis_ikan").value;
+              let jmlIkanSehat = document.getElementById("jml_ikan_sehat").value;
+              let jmlIkanSkt = document.getElementById("jml_ikan_skt").value;
+              let wkt = document.getElementById("wkt_input").value;
+
+              let JSONObject = {
+                "jenis_ikan" : jnsIkan,
+                "jml_ikan_sehat" : jmlIkanSehat,
+                "jml_ikan_sakit" : jmlIkanSkt,
+                "wkt_input" : wkt
+              };
+              postDataIkan(JSONObject);
+            }
+
+            // fungsi post data ikan
+            function postDataIkan(data){
+              let xhttp = new XMLHttpRequest();
+              xhttp.onreadystatechange = function(){
+                if (this.readyState == 4 && this.status == 200) {
+                  if (JSON.parse(this.responseText)) {
+                    document.getElementById("modal-add").style.display = "none";
+                    resetTableIkan();
+                    showTableIkan();
+                  }
+                }
+              };
+
+              xhttp.open("POST", "/api/dataikan", true);
+              xhttp.setRequestHeader("Content-type","application/json");
+              xhttp.send(JSON.stringify(data));
+            }
+
+            // fungsi reset tabel data ikan
+            function resetTableIkan(){
+              let barisIkan = document.getElementsByClassName("baris-ikan");
+
+              while(barisIkan.length){
+                barisIkan[0].parentNode.removeChild(barisIkan[0]);
+              }
+              // console.log(barisIkan);
+            }
+
+          // fungsi option tambah data
+          function select(){
+            let xhttp = new XMLHttpRequest();
+            let jenisIkan = [];
+
+            function getDataI(){
+              xhttp.onreadystatechange = function() {
+                if(this.readyState == 4 && this.status == 200){
+                  let data = JSON.parse(this.responseText);
+                  //console.log(dataI);
+                  let jenisContainer = document.getElementById("jenis_ikan");
+                  let jenisContainerEdit = document.getElementById("edit_jenis_ikan");
+
+                  data.forEach(function(datum){
+                    let option = document.createElement("option");
+                    let optionText = document.createTextNode(datum.jenisIkan);
+
+                    option.setAttribute("id", datum.idIkan);
+                    option.setAttribute("value", datum.jenisIkan);
+
+                    option.appendChild(optionText);
+                    jenisContainer.appendChild(option);
+                    jenisContainerEdit.appendChild(option.cloneNode(true));
+
+                    jenisIkan.push ({
+                      id: datum.idJenis,
+                      nama: datum.jenisIkan
+                    });
+                  });
+                }
+              }
+
+              xhttp.open("GET", "/api/jenisikan", true);
+              xhttp.send();
+            }
+            getDataI();
+          }
+
+          // update data ikan
+          var idToEdit = 0;
+
+          function updateDataIkan(id){
+            let xhr = new XMLHttpRequest();
+
+            xhr.onreadystatechange = function(){
+              if (this.readyState == 4 && this.status == 200) {
+                idToEdit = id;
+
+                fillEditModal(JSON.parse(this.responseText));
+              }
+            };
+
+            xhr.open("GET", "/api/dataikan/" + id, true);
+            xhr.send();
+          }
+
+          function fillEditModal(data) {
+            console.log(data);
+            document.getElementById("edit_jenis_ikan").value = data.jenisIkan;
+            document.getElementById("edit_ikan_sehat").value = data.jmlIkanSehat;
+            document.getElementById("edit_ikan_skt").value = data.jmlIkanSakit;
+            document.getElementById("edit_wkt_input").value = data.wktInput.replace(" ", "T");
+
+            document.getElementById("modal-edit").style.display = "block";
+          }
+
+          // meletakkan data ikan ke db
+          function putEditIkan(){
+            let editJnsIkan = document.getElementById("edit_jenis_ikan").value;
+            let editIkanSehat = document.getElementById("edit_ikan_sehat").value;
+            let editIkanSakit = document.getElementById("edit_ikan_skt").value;
+            let editWkt = document.getElementById("edit_wkt_input").value;
+
+            let editJSONObject = {
+              "id_ikan" : idToEdit,
+              "jenis_ikan" : editJnsIkan,
+              "jml_ikan_sehat" : editIkanSehat,
+              "jml_ikan_sakit" : editIkanSakit,
+              "wkt_input" : editWkt
+            };
+            postEditIkan(editJSONObject);
+          }
+
+          function postEditIkan(data){
+            let xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function(){
+              if (this.readyState == 4 && this.status == 200) {
+                if (JSON.parse(this.responseText)) {
+                  resetTableIkan();
+                  showTableIkan();
+                    document.getElementById("modal-edit").style.display = "none";
+                }
+              }
+            };
+
+            xhttp.open("PUT", "/api/dataikan", true);
+            xhttp.setRequestHeader("Content-type","application/json");
+            xhttp.send(JSON.stringify(data));
+          }
+          //finish update
+
+          //delete data ikan
+          function tampilMdlHapusIkan(id){
+            document.getElementById('modal-hapus').style.display='block';
+            idToDelete = id;
+          }
+
+          function hapusDataIkan(){
+            let xhr = new XMLHttpRequest();
+
+            xhr.onreadystatechange = function(){
+              if (this.readyState == 4 && this.status == 200) {
+                if (JSON.parse(this.responseText))
+                {
+                  document.getElementById("modal-hapus").style.display = "none";
+                  resetTableIkan();
+                  showTableIkan();
+                }
+              }
+            };
+            console.log(idToDelete);
+            xhr.open("DELETE", "/api/dataikan/" +idToDelete, true);
+            xhr.send();
+          }
+          //finish
+
+          // tampil data ikan
+          function tampilDataIkan(){
+            document.getElementById('data-ikan').style.display='block';
+            document.getElementById('data-sensor').style.display='none';
+            
+            document.getElementById('tampil-data-sensor').classList.remove('w3-blue');
+            document.getElementById('tampil-data-ikan').classList.add('w3-blue');
+          }
+
+          //tampil data sensor
+          function tampilDataSensor(){
+            document.getElementById('data-ikan').style.display='none';
+            document.getElementById('data-sensor').style.display='block';
+            
+            document.getElementById('tampil-data-sensor').classList.add('w3-blue');
+            document.getElementById('tampil-data-ikan').classList.remove('w3-blue');
+          }
+          select();
+          getData();
+          tampilData();
+
+          </script>
+    
+  <!-- Footer -->
+  <footer class="w3-container w3-padding-16 w3-light-grey">
+    <!-- <h4>FOOTER</h4> -->
+    <p class="w3-text-black">Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+  </footer>
+
+  <!-- End page content -->
+</div>
+
+<script>
+// Get the Sidebar
+var mySidebar = document.getElementById("mySidebar");
+
+// Get the DIV with overlay effect
+var overlayBg = document.getElementById("myOverlay");
+
+// Toggle between showing and hiding the sidebar, and add overlay effect
+function w3_open() {
+    if (mySidebar.style.display === 'block') {
+        mySidebar.style.display = 'none';
+        overlayBg.style.display = "none";
+    } else {
+        mySidebar.style.display = 'block';
+        overlayBg.style.display = "block";
+    }
+}
+
+// Close the sidebar with the close button
+function w3_close() {
+    mySidebar.style.display = "none";
+    overlayBg.style.display = "none";
+}
+</script>
+
+</body>
+</html>

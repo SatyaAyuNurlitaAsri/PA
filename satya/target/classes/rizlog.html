@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  	<title>Form Login</title>
+  	<meta charset="utf-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1">
+  	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="/assets/js/w3.js"></script>
+</head>
+<style>
+	body {
+		font-family: "Raleway", sans-serif;
+    	background-image: url('/img/sea.jpg');
+	    background-size: cover;
+	}
+
+	a:link {
+	  text-decoration: none;
+	}
+</style>
+<body>
+
+<div class="container w3-row w3-padding-64">
+  <div class="w3-col l3">
+  	&nbsp;
+  </div>
+
+  <div class="w3-col l3 w3-right">
+  	&nbsp;
+  </div>
+  <div class="w3-col l6">
+  <center>
+  	<h2 class="w3-text-white">Let's get started</h2>
+  <h5 class="w3-text-white">Log in to your account here</h5>
+  </center>
+
+      {{#if flash.gagal}}
+      <div class="w3-row w3-margin-bottom" id="notif-gagal">
+        <div class="w3-col l4 m3 s1">
+          &nbsp;
+        </div>
+        
+        <div class="w3-col l4 m3 s1 w3-right">
+          &nbsp;
+        </div>
+        
+        <div class="w3-round w3-red w3-padding cursor-pointer w3-col l4 m6 s10" onclick="hide('notif-gagal')">
+          <p>Username dan/atau password salah.</p>
+        </div>
+      </div>
+      {{/if}}
+
+  <br/>
+  <form class="w3-border w3-round w3-padding-large" action="/login/do" method="POST">
+    <p class="w3-text-grey w3-padding-12">Your username</p>
+    <p>
+    	<div class="input-group w3-col l12 w3-margin-bottom">
+	      	<input id="username" type="text" class="form-control" name="username" placeholder="Username" required>
+	      	<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>   
+    	</div>
+    </p>
+
+    <p class="w3-text-grey w3-padding-12">Your password</p>
+    <p>
+    <div class="input-group w3-col l12 w3-margin-bottom">
+      <input id="password" type="password" class="form-control" name="password" placeholder="Password" required>
+      <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+    </div>
+    </p>
+    <!-- <input class="w3-check" type="checkbox" name="stay-login">
+    <label>Tetap login</label> -->
+    <br/>
+	<!-- <p><button class="w3-btn w3-orange w3-round"><a href="AdminPage">Login</a></button></p> -->
+  <p><button class="w3-btn w3-orange w3-round">Login</button></p>
+  </form>
+  <a href="/home">
+    <u class="w3-text-white"><h5 class="w3-text-white">Back to home</h5></u>
+  </a>
+  </div>
+</div>
+
+</body>
+</html>

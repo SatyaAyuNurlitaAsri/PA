@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dengue Risk</title>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+  <style>
+    html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
+
+      /* Always set the map height explicitly to define the size of the div
+      * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
+      /* Add Animation */
+      @-webkit-keyframes animatetop {
+        from {top:-300px; opacity:0} 
+        to {top:0; opacity:1}
+      }
+
+      @keyframes animatetop {
+        from {top:-300px; opacity:0}
+        to {top:0; opacity:1}
+      }
+
+      .close {
+        color: black;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+      }
+
+      .close: hover,
+      .close: focus {
+        cursor: pointer;
+        color: #000;
+        text-decoration: none;
+      }
+
+      a:link {
+        text-decoration: none;
+      }
+    </style>
+  </head>
+
+  <body class="w3-light-grey">
+    <!-- Top container -->
+    <div class="w3-bar w3-top w3-indigo w3-large" style="z-index:4">
+      <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey" onclick="w3_open();">
+        <i class="fa fa-bars"></i>  Menu
+      </button>
+
+      <span class="w3-bar-item w3-left">Dengue<b>Risk</b></span>
+    </div>
+
+    <!-- Sidebar/menu -->
+    <nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
+      <div class="w3-bar-block" style="margin-top:40px">
+        <div id="menu-klik">
+          <div class="w3-container">
+            <h4><b>Selamat Datang,</b></h4>
+          </div>
+        </div>
+
+        <hr>
+
+        <a href="#" class="w3-bar-block w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu">
+          <i class="fa fa-remove fa-fw"></i>  Close Menu
+        </a>
+
+        <a href="#" class="w3-bar-item w3-button w3-padding" id="parameter-kejadian" onclick="showKelola()">
+          <b>Lihat Daftar Parameter</b>
+        </a>
+        <a href="#KasusDb" class="w3-bar-item w3-button w3-padding parameter w3-border-deep-orange" style="display:none;" id="kasus_db" onclick="aktifkanMenu(this)">
+          &nbsp;&nbsp;&nbsp;&nbsp;Kasus Demam Berdarah
+        </a>
+        <a href="#Penduduk" class="w3-bar-item w3-button w3-padding parameter w3-border-deep-orange" style="display: none;" id="kepadatan_penduduk" onclick="aktifkanMenu(this)">
+          &nbsp;&nbsp;&nbsp;&nbsp;Kepadatan Penduduk
+        </a>
+        <a href="#Kemiskinan" class="w3-bar-item w3-button w3-padding parameter w3-border-deep-orange" style="display: none;" id="jumlah_rtmiskin" onclick="aktifkanMenu(this)">
+          &nbsp;&nbsp;&nbsp;&nbsp;Jumlah Rumah Tangga Miskin
+        </a>
+        <a href="#TdkSekolah" class="w3-bar-item w3-button w3-padding parameter w3-border-deep-orange" style="display: none;" id="tdk_sekolah" onclick="aktifkanMenu(this)">
+          &nbsp;&nbsp;&nbsp;&nbsp;Belum/Tidak Sekolah
+        </a>
+        <a href="#BlmTamatSd" class="w3-bar-item w3-button w3-padding parameter w3-border-deep-orange" style="display: none;" id="belum_tamat_sd" onclick="aktifkanMenu(this)">
+          &nbsp;&nbsp;&nbsp;&nbsp;Belum Tamat SD
+        </a>   
+        <a href="#TamatSd" class="w3-bar-item w3-button w3-padding parameter w3-border-deep-orange" style="display: none;" id="tamat_sd" onclick="aktifkanMenu(this)">
+          &nbsp;&nbsp;&nbsp;&nbsp;Tamat SD
+        </a>
+        <a href="#TamatSmp" class="w3-bar-item w3-button w3-padding parameter w3-border-deep-orange" style="display: none;" id="tamat_smp" onclick="aktifkanMenu(this)">
+          &nbsp;&nbsp;&nbsp;&nbsp;Tamat SMP
+        </a>
+        <a href="#TamatSma" class="w3-bar-item w3-button w3-padding parameter w3-border-deep-orange" style="display: none;" id="tamat_sma" onclick="aktifkanMenu(this)">
+          &nbsp;&nbsp;&nbsp;&nbsp;Tamat SMA
+        </a>
+        <a href="#TamatPt" class="w3-bar-item w3-button w3-padding parameter w3-border-deep-orange" style="display: none;" id="tamat_pt" onclick="aktifkanMenu(this)">
+          &nbsp;&nbsp;&nbsp;&nbsp;Tamat Perguruan Tinggi
+        </a>
+
+        <a href="#" class="w3-bar-item w3-button w3-padding" id="tahun-regresi" onclick="showRegresi()">
+          <b>Regresi</b>
+        </a>
+        <a href="#" class="w3-bar-item w3-button w3-padding regresi w3-border-blue" style="display:none;" id="tahun1" onclick="aktifkanRegresi(this, '2012')">
+          &nbsp;&nbsp;&nbsp;&nbsp;2012
+        </a>
+        <a href="#" class="w3-bar-item w3-button w3-padding regresi w3-border-blue" style="display: none;" id="tahun2" onclick="aktifkanRegresi(this, '2013')">
+          &nbsp;&nbsp;&nbsp;&nbsp;2013
+        </a>
+        <a href="#" class="w3-bar-item w3-button w3-padding regresi w3-border-blue" style="display: none;" id="tahun3" onclick="aktifkanRegresi(this, '2014')">
+          &nbsp;&nbsp;&nbsp;&nbsp;2014
+        </a>
+        <a href="#" class="w3-bar-item w3-button w3-padding regresi w3-border-blue" style="display: none;" id="tahun4" onclick="aktifkanRegresi(this, '2015')">
+          &nbsp;&nbsp;&nbsp;&nbsp;2015
+        </a>
+        <a href="#" class="w3-bar-item w3-button w3-padding regresi w3-border-blue" style="display: none;" id="tahun5" onclick="aktifkanRegresi(this, '2016')">
+          &nbsp;&nbsp;&nbsp;&nbsp;2016
+        </a>
+
+        <br><br>
+      </div>
+    </nav>
+
+    <div id="map"></div>
+
+    <!-- parameter kasus db -->
+    <div class="w3-black" id="KasusDb">
+      <div class="w3-container w3-content w3-padding-64" style="max-width:800px">
+        <h2 class="w3-wide w3-center">Data Kasus DB</h2>
+        <p class="w3-opacity w3-center"><i>Tabel Data</i></p><br>
+        <table class="w3-table w3-bordered">
+        <thead>
+          <tr>
+            <td><b>No</b></td>
+            <td class="w3-center"><b>ID Kec</b></td>
+            <td class="w3-center"><b>Nama Kec</b></td>
+            <td class="w3-center"><b>Jumlah Kasus</b></td>
+            <td class="w3-center"><b>Tahun</b></td>
+            <td><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Kelola</b></td>
+          </tr>
+        </thead>
+        <tbody id="tbl_body_kasusdb"></tbody>
+          
+        </table>
+      </div>
+    </div>
+
+    <!-- pagination tabel kasus db -->
+    <div class="w3-container">
+        <div class="w3-center">
+          <div class="w3-bar w3-border" id="pagination">
+          </div>
+        </div>
+    </div>
+
+    <!--Scrip menampilkan Peta-->
+    <script>
+      let map;
+      let infoWindow;
+      let halamanMax;
+      let hal;
+      let maxHal;
+
+
+     //pagination
+     // hal = 1;
+      function getPagination() {
+        let xhr = new XMLHttpRequest();
+
+        xhr.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            console.log(JSON.parse(this.responseText));
+          }
+        }
+
+        xhr.open("GET", "/api/kasus_db?hal=" + hal, true);
+        xhr.send();
+      }
+
+      function openPage(halaman) {
+        if (halaman < 1) {
+              halaman = 1;
+          } else if(halaman >= maxHal){
+              halaman = maxHal;
+              // console.log(halaman);
+          }
+
+          hal = halaman;
+          //resetTabelKasusDb();
+          showTableKasusDb();
+      }
+
+      function nextPage() {
+          openPage(hal+1);
+      }
+
+      function prevPage() {
+          openPage(hal-1);
+      }
+      function getMaxPage() {
+        let xhr = new XMLHttpRequest();
+
+        xhr.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            halamanMax = JSON.parse(this.responseText);
+            // console.log(halamanMax);
+            fillPagination();
+            openPage(1);
+          }
+        };
+
+        xhr.open("GET", "/api/max-hal/kasus_db", true);
+        xhr.send();
+      }
+
+      function fillPagination() {
+        let page = document.getElementById("pagination");
+
+        for (var i = 0; i < halamanMax+2; i++) {
+          let a = document.createElement("a");
+          let aTeks = document.createTextNode(i);
+
+          a.setAttribute("onclick", "openPage(" + i + ")");
+
+          if (i == 0) {
+              aTeks = document.createTextNode('\u00AB');
+              a.setAttribute("onclick","prevPage()");
+          } else if (i == halamanMax+1) {
+              // console.log(i);
+              aTeks = document.createTextNode('\u00BB');
+              a.setAttribute("onclick","nextPage()");
+          }
+
+          a.setAttribute("class","w3-button");
+          a.appendChild(aTeks);
+          page.appendChild(a);
+        }
+      }
+      //finish pagination
+
+      //Munculkan table
+      function gantiTampilTable(){
+        document.getElementById("tampiltabel").style.display="none";
+        document.getElementById("map").style.display="block";
+      }
+
+      //Munculkan Map
+      function gantiTampilMap(){
+        document.getElementById("tampiltabel").style.display="block";
+        document.getElementById("map").style.display="none";
+      }
+      
+
+      function showTableKasusDb(){
+            let nomor = ((hal-1)*31) +1;
+            let tbl;
+            let xmlhttp = new XMLHttpRequest();
+
+            xmlhttp.onreadystatechange = function() {
+              if(this.readyState == 4 && this.status == 200) {
+                // console.log(JSON.parse(this.responseText));
+                let data = JSON.parse(this.responseText);
+                let tabelBody = document.getElementById("tbl_body_kasusdb");
+
+                data.forEach(function(datum){
+                  console.log(datum);
+                  let trIdKec = document.createElement("tr");
+                  let tdIdKec = document.createElement("td");
+                  let tdNomor = document.createElement("td");
+                  let tdNamaKec = document.createElement("td");
+                  let tdJumlahKasusDb = document.createElement("td");
+                  let tdTahun = document.createElement("td");
+                  let tdKelola = document.createElement("td");
+                  let btnEdit = document.createElement("button");
+                  let btnHapus = document.createElement("button");
+
+                  trIdKec.setAttribute("class", "baris-kasusdb");
+                  btnEdit.setAttribute("class", "w3-button w3-green w3-round-small w3-padding-small w3-text-white");
+                  btnEdit.setAttribute("onclick", "updateKasusDb(" + datum.id + ")");
+                  btnHapus.setAttribute("class", "w3-button w3-red w3-round-small w3-padding-small");
+                  btnHapus.setAttribute("onclick", "tampilMdlHapusKasusDb(" + datum.id + ")");
+                  tdIdKec.setAttribute("class", "w3-center");
+                  tdNamaKec.setAttribute("class", "w3-center");
+                  tdJumlahKasusDb.setAttribute("class", "w3-center");
+                  tdTahun.setAttribute("class", "w3-center");
+                  
+
+                  let nomorTeks = document.createTextNode(nomor);
+                  let idkecTeks = document.createTextNode(datum.idKec);
+                  let namakecTeks = document.createTextNode(datum.name);
+                  let jumlahkasusdbTeks = document.createTextNode(datum.jmlKasus);
+                  let tahunTeks = document.createTextNode(datum.tahun);
+                  let editTeks = document.createTextNode("edit");
+                  let hapusTeks = document.createTextNode("hapus");
+                  let spasi = document.createTextNode(" ");
+
+                  // namaParent.appendChild(namaChild)
+                  btnEdit.appendChild(editTeks);
+                  btnHapus.appendChild(hapusTeks);
+                  tdNomor.appendChild(nomorTeks);
+                  tdIdKec.appendChild(idkecTeks);
+                  tdNamaKec.appendChild(namakecTeks);     
+                  tdJumlahKasusDb.appendChild(jumlahkasusdbTeks);
+                  tdTahun.appendChild(tahunTeks);
+                  tdKelola.appendChild(btnEdit);
+                  tdKelola.appendChild(spasi);
+                  tdKelola.appendChild(btnHapus);
+
+                  trIdKec.appendChild(tdNomor);
+                  trIdKec.appendChild(tdIdKec);
+                  trIdKec.appendChild(tdNamaKec);
+                  trIdKec.appendChild(tdJumlahKasusDb);
+                  trIdKec.appendChild(tdTahun);
+                  trIdKec.appendChild(tdKelola);
+                  tabelBody.appendChild(trIdKec);
+
+                  // console.log("sensor"+nomor);
+                  nomor++;
+              });
+            }
+          };
+          xmlhttp.open("GET", "/api/detail/kasusdb?hal="+ hal, true);
+          xmlhttp.send();
+        }
+
+
+
+
+    function getData(tahun) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+          if (xhttp.readyState == 4 && xhttp.status == 200) {
+            fillMap(JSON.parse(xhttp.responseText), tahun);
+          // fillKecamatan(JSON.parse(xhttp.responseText));
+        }
+      };
+      xhttp.open("GET", "/api/sby_kecamatan", true);
+      xhttp.send();
+    }
+
+    function fillMap(data, tahun){
+      initMap(data, tahun);
+    }
+
+    function initMap(data = [], tahun) {
+     map = new google.maps.Map(document.getElementById('map'), {
+      center: {lat: -7.2763472, lng: 112.7192666},
+      zoom: 12,
+      mapTypeId: 'terrain'
+    });
+
+     data.forEach(function(datum){
+      var tepi = datum.geom.replace("MULTIPOLYGON(((","").replace(")))","").split(",");
+      var batas = [];
+      var warna = '#b50c15';
+
+      tepi.forEach(function(geom){
+        var latLng = geom.split(" ");
+
+        batas.push({
+          lat: parseFloat(latLng[1]),
+          lng: parseFloat(latLng[0])
+        });
+      });
+
+      var kecamatanPoly = new google.maps.Polygon({
+        paths: batas,
+        strokeColor: '#000000',
+        strokeOpacity: 1,
+        strokeWeight: 0.5,
+        fillColor: warna,
+        fillOpacity: 0.6
+      });
+
+      google.maps.event.addListener(kecamatanPoly,'click',function() {
+        ambilNama(
+              datum.gid,
+              batas,
+              map,
+              kecamatanPoly,
+              datum,
+              tahun
+            );
+      });
+      kecamatanPoly.setMap(map);
+    });
+     // infoWindow = new google.maps.InfoWindow;
+  }
+
+function ambilNama(id, batas, map, kecamatanPoly, datum, tahun){
+  let xhttp = new XMLHttpRequest();
+  let result;
+
+          // nama dimasukkan ke mapCanvas
+          // set attribute pada mapCanvas
+          let url = "http://localhost:8080/api/tampildata/kasus_db?tahun=" + tahun;
+
+          xhttp.onreadystatechange = function(){
+            if (this.readyState == 4 && this.status == 200) {
+              result = JSON.parse(this.responseText);
+                  // console.log(result);
+                  console.log(result[datum.gid]);
+
+                  let divHeader = document.createElement("div");
+
+                  let nameContainer = document.createElement("h4");
+                  let name = document.createTextNode(datum.name);
+                  let divider = document.createElement("hr");
+                  
+                  let divBody = document.createElement("div");
+                  
+                  let divRow1 = document.createElement("div");
+                  let jmlKasusText = document.createTextNode("Jumlah Kasus DB : ");
+                  let jmlKasus = document.createTextNode(result[datum.gid].jmlKasus);
+
+                  let divRow2 = document.createElement("div");      
+                  let jmlPendudukText = document.createTextNode("Jumlah Penduduk : ");
+                  let jmlPenduduk = document.createTextNode(result[datum.gid].jmlPenduduk);
+
+                  let divContainer = document.createElement("div");
+                  
+                  let divFooter = document.createElement("div");
+
+                  nameContainer.setAttribute("style", "margin-bottom: 0px;");
+                  //updateContainer.setAttribute("style", "margin-top: 0px;margin-bottom: 0px;");
+                  divider.setAttribute("style", "margin-top: 10px;margin-bottom: 10px;");
+                  divRow1.setAttribute("style", "margin-bottom:5px");
+                  divRow2.setAttribute("class", "margin-bottom:5px");
+                  // divCol1.setAttribute("class", "col");
+                  //divCol1.setAttribute("style", "display:inline;float:left;width:auto");
+                  // divCol2.setAttribute("class", "col");
+                  //divCol2.setAttribute("style", "display: inline;float:left;width:auto;margin-left:10px");
+                  divHeader.setAttribute("style", "margin-bottom:5px");
+                  divBody.setAttribute("style", "margin-top:10px");
+                  // divFooter.setAttribute("class", "row");
+
+                  
+                  nameContainer.appendChild(name);
+                  //updateText.appendChild(updateTitle);
+                  //updateText.appendChild(update);
+                  //updateContainer.appendChild(updateText);
+                  divHeader.appendChild(nameContainer);
+                  //divHeader.appendChild(updateContainer);
+                  divHeader.appendChild(divider);
+
+                  divRow1.appendChild(jmlKasusText);
+                  divRow1.appendChild(jmlKasus);
+
+
+                  divRow2.appendChild(jmlPendudukText);
+                  divRow2.appendChild(jmlPenduduk);
+
+                  // tempContainer.appendChild(tempTitle);
+                  // tempContainer.appendChild(tempFill);
+                  // humidityContainer.appendChild(humidityTitle);
+                  // humidityContainer.appendChild(humidityFill);
+                  // divCol1.appendChild(tempContainer);
+                  // divCol1.appendChild(humidityContainer);
+
+                  // rainContainer.appendChild(rainTitle);
+                  // rainContainer.appendChild(rainFill);
+                  // pHContainer.appendChild(pHTitle);
+                  // pHContainer.appendChild(pHFill);
+                  // divCol2.appendChild(pHContainer);
+                  // divCol2.appendChild(rainContainer);
+
+                  // divRow2.appendChild(divCol1);
+                  // divRow2.appendChild(divCol2);
+
+                  divBody.appendChild(divRow1);
+                  divBody.appendChild(divRow2);
+
+                  divContainer.appendChild(divHeader);
+                  divContainer.appendChild(divBody);
+
+                  if(infoWindow == null) {
+                    infoWindow = new google.maps.InfoWindow({ 
+                      content: divContainer,
+                      maxWidth: 350
+                    });
+
+                    infoWindow.open(map, kecamatanPoly);
+                  } else {
+                    infoWindow.setContent(divContainer);
+                    infoWindow.setPosition(batas[0]);
+                  }
+                }
+              };
+
+              xhttp.open("GET", url, true);
+              xhttp.send();
+            }
+            getData();
+
+          </script>
+
+          <script>
+      // Inisialisasi variabel 
+      
+      let parameterKejadian = false;
+      let tahunRegresi = false;
+
+      
+      // Get the Sidebar
+      var mySidebar = document.getElementById("mySidebar");
+
+      // Get the DIV with overlay effect
+      var overlayBg = document.getElementById("myOverlay");
+
+      // Toggle between showing and hiding the sidebar, and add overlay effect
+      function w3_open() {
+        if (mySidebar.style.display === 'block') {
+          mySidebar.style.display = 'none';
+          overlayBg.style.display = "none";
+        } else {
+          mySidebar.style.display = 'block';
+          overlayBg.style.display = 'block';
+        }
+      }
+
+      // Close the sidebar with the close button
+      function w3_close() {
+        mySidebar.style.display = "none";
+        overlayBg.style.display = "none";
+      }
+
+      //Digunakan untuk mereset left-bar yang sudah ada dan menggantikan dengan left-bar yang baru sepanjang elemen (<a></a>)
+      function aktifkanMenu(elemen) {
+        resetParameter();
+
+        elemen.classList.add("w3-leftbar");
+
+        let check = function(el) {
+          if (el = document.getElementById("kasus_db")) {
+            console.log("kasus_db");
+          } else {
+            console.log("other");
+          }
+        };
+      }
+
+      //digunakan untuk mereset parameter left-bar
+      function resetParameter() {
+        let parameters = document.getElementsByClassName("parameter");
+
+        for(let i=0; i<parameters.length; i++) {
+          parameters[i].classList.remove("w3-leftbar");
+        }
+      }
+
+      // Fungsi Kelola Tampilan Daftar Parameter 
+      function showKelola() {
+        if (parameterKejadian) {
+          parameterKejadian = false;
+          document.getElementById("kasus_db").style.display = 'none';
+          document.getElementById("kepadatan_penduduk").style.display = 'none';
+          document.getElementById("jumlah_rtmiskin").style.display = 'none';
+          document.getElementById("tdk_sekolah").style.display = 'none';
+          document.getElementById("belum_tamat_sd").style.display = 'none';
+          document.getElementById("tamat_sd").style.display = 'none';
+          document.getElementById("tamat_smp").style.display = 'none';
+          document.getElementById("tamat_sma").style.display = 'none';
+          document.getElementById("tamat_pt").style.display = 'none';
+        } else {
+          parameterKejadian = true;
+          document.getElementById("kasus_db").style.display = 'block';
+          document.getElementById("kepadatan_penduduk").style.display = 'block';
+          document.getElementById("jumlah_rtmiskin").style.display = 'block';
+          document.getElementById("tdk_sekolah").style.display = 'block';
+          document.getElementById("belum_tamat_sd").style.display = 'block';
+          document.getElementById("tamat_sd").style.display = 'block';
+          document.getElementById("tamat_smp").style.display = 'block';
+          document.getElementById("tamat_sma").style.display = 'block';
+          document.getElementById("tamat_pt").style.display = 'block';
+        }
+      }
+
+      //Digunakan untuk mereset left-bar yang sudah ada dan menggantikan dengan left-bar yang baru sepanjang elemen (<a></a>)
+      function aktifkanRegresi(elemen, tahun) {
+        resetRegresi();
+
+        elemen.classList.add("w3-leftbar");
+        // console.log(tahun);
+        getData(tahun);
+      }
+
+      //digunakan untuk mereset regresi left-bar
+      function resetRegresi() {
+        let regresi = document.getElementsByClassName("regresi");
+
+        for(let i=0; i<regresi.length; i++) {
+          regresi[i].classList.remove("w3-leftbar");
+        }
+      }
+
+      // Fungsi Kelola Tampilan Daftar Parameter 
+      function showRegresi() {
+        if (tahunRegresi) {
+          tahunRegresi = false;
+          document.getElementById("tahun1").style.display = 'none';
+          document.getElementById("tahun2").style.display = 'none';
+          document.getElementById("tahun3").style.display = 'none';
+          document.getElementById("tahun4").style.display = 'none';
+          document.getElementById("tahun5").style.display = 'none';
+        } else {
+          tahunRegresi = true;
+          document.getElementById("tahun1").style.display = 'block';
+          document.getElementById("tahun2").style.display = 'block';
+          document.getElementById("tahun3").style.display = 'block';
+          document.getElementById("tahun4").style.display = 'block';
+          document.getElementById("tahun5").style.display = 'block';
+        }
+      }
+
+  
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCw4g4V9MtupcGa7PjP6APSX0UFNyOe-08&callback=initMap"></script>
+  </body>
+  </html>

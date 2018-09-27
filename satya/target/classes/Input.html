@@ -1,0 +1,106 @@
+<!DOCTYPE>
+<html>
+	<head>
+		<style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    	
+		</style>
+	</head>
+	<body>
+		<h3>Halaman Input</h3>
+		<div id="map"></div>
+
+		Kecamatan: <input type="text" id="kecamatan"/><br/>
+		Kelurahan: <input type="text" id="kelurahan"/><br/>
+		Geom: <input type="text" id="geom"/><br/>
+		<button onclick="simpan()">Input</button>
+		<button onclick="savePolygon()">Simpan Poligon</button>
+
+	</body>
+	<script>
+	var map;
+	var polygon = [];
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: -7.257472, lng: 112.752088},
+          zoom: 12
+        });
+
+        map.addListener('click', function(event) {
+          //map.setZoom(8);
+          //map.setCenter(marker.getPosition());
+          
+          //console.log(event.latLng.lat());
+          //console.log(event.latLng.lng());
+          var lat = event.latLng.lat();
+          var lng = event.latLng.lng();
+
+          polygon.push(
+          	lng + " " + lat
+          );
+
+          console.log(polygon);
+
+          //var latLng = "POINT(" + lng + " " + lat + ")";
+          //document.getElementById("geom").value = latLng;
+
+          //console.log(latLng);
+        });
+      }
+
+    function savePolygon(){
+    	var line = "POLYGON((";
+
+    	polygon.forEach(function(point) {
+    		line += point + ",";
+    	})
+
+    	line += polygon[0];
+    	line += "))";
+
+    	document.getElementById("geom").value = line;
+    	
+    }
+
+	function simpan(){
+		var kecamatan = document.getElementById("kecamatan").value;
+		var kelurahan = document.getElementById("kelurahan").value;
+		var geom = document.getElementById("geom").value;
+		var data = {
+			kecamatan : kecamatan, 
+			kelurahan : kelurahan,
+			geom : geom
+			//kecamatan yang kiri itu yang ada di PGadmin, yang kanan itu yang diinisialisasi
+		};
+		kirim(data);
+	}
+
+	function kirim(data){
+		console.log(data);
+		var xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function(){
+			if (this.readyState == 4 && this.status == 200){
+				console.log(this.responseText);
+			}
+		};
+		xhr.open("POST", "/api/surabayaa", true);
+		xhr.setRequestHeader("Content-type","application/json");
+		xhr.send(JSON.stringify(data));
+	}
+
+	</script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAioZP-WX30J2FKbB5x8NT_t-hX_6Ck_Iw&callback=initMap"
+    async defer></script>
+
+
+</html>

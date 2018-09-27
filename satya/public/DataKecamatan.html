@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html>
+<title>Admin Page</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<style>
+  
+  html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
+  .edit_cls {
+    display: none;
+    position: fixed; /* Stay in place */
+      z-index: 1; /* Sit on top */
+      padding-top: 100px; /* Location of the box */
+      left: 21%;
+      top: 0;
+      width: 80%; /* Full width */
+      height: 100%; /* Full height */
+      overflow: auto; /* Enable scroll if needed */
+  }
+  .edit_ctn {
+    position: relative;
+      background-color: #fefefe;
+      margin: auto;
+      padding: 0;
+      border: 1px solid #888;
+      width: 80%;
+      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+      -webkit-animation-name: animatetop;
+      -webkit-animation-duration: 0.4s;
+      animation-name: animatetop;
+      animation-duration: 0.4s
+  }
+  /* Add Animation */
+  @-webkit-keyframes animatetop {
+      from {top:-300px; opacity:0} 
+      to {top:0; opacity:1}
+  }
+
+  @keyframes animatetop {
+      from {top:-300px; opacity:0}
+      to {top:0; opacity:1}
+  }
+  .close {
+      color: black;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+  }
+
+  .close: hover,
+  .close: focus {
+    cursor: pointer;
+    color: #000;
+      text-decoration: none;
+  }
+  .edit-header {
+      padding: 2px 16px;
+      background-color: #5cb85c;
+      color: white;
+  }
+
+  .edit-body {padding: 2px 16px;}
+
+  .edit-footer {
+      padding: 2px 16px;
+      background-color: #5cb85c;
+      color: white;
+  }
+
+</style>
+
+<body class="w3-light-grey">
+
+<!-- Top container -->
+<div class="w3-bar w3-top w3-indigo w3-large w3-text-white" style="z-index:4">
+  <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey" onclick="w3_open();"><i class="fa fa-bars"></i> Menu</button>
+  <span class="w3-bar-item w3-left">Dengue<strong>Risk</strong></span>
+  <a href="/logout/do" class="w3-bar-item w3-button w3-right">Logout</a>
+</div>
+
+<!-- Sidebar/menu -->
+<nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
+  <div class="w3-container w3-row">
+    <div class="w3-col s4">
+      <img src="/img/Niece.png" class="w3-circle w3-margin-right" style="width:46px">
+    </div>
+    <div class="w3-col s4 w3-bar">
+      <span>Welcome, <strong>Admin</strong></span><br>
+    </div>
+  </div>
+  <hr>
+  <div class="w3-container">
+    <h5>Kelola Data</h5>
+  </div>
+  <div class="w3-bar-block">
+    <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a>
+    <!-- <a href="#" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-eye fa-fw"></i>  Tampil Data</a> -->
+    <a href="/AdminPage" class="w3-bar-item w3-button w3-padding" id="tampil-kasusdb"><i class="fa fa-edit fa-fw"></i>Kasus DB</a>
+    <a href="/PadatPenduduk" class="w3-bar-item w3-button w3-padding" id="tampil-kepadatan"><i class="fa fa-edit fa-fw"></i>Kepadatan Penduduk</a>
+    <a href="/Kemiskinan" class="w3-bar-item w3-button w3-padding" id="tampil-kepadatan"><i class="fa fa-edit fa-fw"></i>Kemiskinan</a>
+    <a href="/BelumSekolah" class="w3-bar-item w3-button w3-padding" id="tampil-kemiskinan"><i class="fa fa-edit fa-fw"></i>Tidak Sekolah</a>
+    <a href="/BlmTamatSd" class="w3-bar-item w3-button w3-padding" id="tampil-tidaksekolah"><i class="fa fa-edit fa-fw"></i>Belum Tamat SD</a>
+    <a href="TamatSd" class="w3-bar-item w3-button w3-padding" id="tampil-belumtamatsd"><i class="fa fa-edit fa-fw"></i>Tamat SD</a>
+    <a href="TamatSmp" class="w3-bar-item w3-button w3-padding" id="tampil-tamatsd"><i class="fa fa-edit fa-fw"></i>Tamat SMP</a>
+    <a href="TamatSma" class="w3-bar-item w3-button w3-padding" id="tampil-tamatsmp"><i class="fa fa-edit fa-fw"></i>Tamat SMA</a>
+    <a href="TamatPt" class="w3-bar-item w3-button w3-padding" id="tampil-tamatsma"><i class="fa fa-edit fa-fw"></i>Tamat PT</a>
+    <a href="/DataKecamatan" class="w3-bar-item w3-button w3-padding w3-blue-gray" id="tampil-datakecamatan"><i class="fa fa-edit fa-fw"></i>Data Kecamatan</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-cog fa-fw"></i>  Settings</a><br><br>
+  </div>
+</nav>
+
+<!-- Overlay effect when opening sidebar on small screens -->
+<div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+<!-- !PAGE CONTENT! -->
+<div class="w3-main" style="margin-left:300px;margin-top:43px;">
+
+  <!-- Header -->
+  <header class="w3-container" style="padding-top:22px">
+    <h5><b><i class="fa fa-dashboard"></i> Aset Database</b></h5>
+  </header>
+
+  <div class="w3-panel">
+    <div class="w3-row-padding" style="margin:0 -16px">
+      <div>
+        <div class="w3-row">
+        <div id="data-penduduk">
+          <div>
+            <h5>Data Kepadatan Penduduk</h5>
+          </div>
+          <hr>
+
+          <div class="w3-col l12">
+            <div class="w3-col l4 w3-left">
+                <a class="w3-button w3-blue w3-round-small w3-text-white w3-margin-bottom" onclick="document.getElementById('modal-tambah').style.display='block'">Tambah Data</a>
+              </div>
+              <div class="w3-col l4 w3-right">
+                <input type="text" id="search-bar" class="w3-input w3-border w3-round" onkeyup="search()" placeholder="Cari ID Kecamatan">
+              </div>
+              <div class="w3-margin-bottom">&nbsp; 
+              </div>
+
+            <!-- menampilkan data Kasus DB -->
+            <table class="w3-table w3-striped w3-white w3-bordered w3-border" id="data_kecamatan">
+            <thead>
+              <tr>
+                <td><b>No</b></td>
+                <td class="w3-center"><b>Kecamatan</b></td>
+                <!--<td class="w3-center"><b>Koordinat</b></td>-->
+                <td><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Kelola</b></td>
+              </tr>
+            </thead>
+            <tbody id="tbl_body_kecamatan"></tbody>
+            </table>
+
+            <!-- modal CRUD Kasus DB-->
+            <!-- modal u/ insert -->
+            <div class="w3-container">
+              <div id="modal-tambah" class="w3-modal w3-cols">
+                <div class="w3-col l3 w3-left">&nbsp;</div>
+                <div class="w3-col l3 w3-right">&nbsp;</div>
+
+                <div class="w3-modal-content w3-animate-top w3-card-4 w3-col l6">
+                  <header class="w3-container w3-teal"> 
+                    <span onclick="document.getElementById('modal-tambah').style.display='none'" 
+                    class="w3-button w3-display-topright">&times;</span>
+                    <h3>Data Kecamatan</h3>
+                  </header>
+                  <br>
+                  <div class="w3-container">
+                    <div class="w3-col">
+
+                      <div class="w3-row w3-margin-bottom">
+                        <label class="w3-label w3-col l3">Nama Kecamatan</label>
+                        <input class="w3-col l9 w3-input w3-border w3-round" type="text" id="name-kecamatan" placeholder="Nama Kecamatan">
+                      </div>
+<!-- 
+                      <div class="w3-row w3-margin-bottom">
+                        <label class="w3-label w3-col l3">Koordinat</label>
+                        <input class="w3-col l9 w3-input w3-border w3-round" type="text" id="geom-kecamatan" placeholder="Koordinat">
+                      </div> -->
+                      <br>
+                    </div>
+
+                    <div class="w3-right w3-margin-bottom">
+                      <button class="w3-button w3-red w3-round w3-text-white" id="btn-batal-tambah" onclick="document.getElementById('modal-tambah').style.display='none'">Batal</button>
+                      <button type="button" class="w3-button w3-green w3-round" id="btn-simpan-tambah" onclick="insertKecamatan()">Simpan</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- modal u/ edit -->
+            <div class="w3-container">
+              <div  id="modal-sunting" class="w3-modal w3-cols">
+        
+                <div class="w3-col l3 w3-left">&nbsp;</div>
+                <div class="w3-col l3 w3-right">&nbsp;</div>
+
+                <div class="w3-modal-content w3-animate-top w3-card-4 w3-col l6">
+                  <header class="w3-container w3-green"> 
+                    <span onclick="document.getElementById('modal-sunting').style.display='none'" 
+                    class="w3-button w3-display-topright">&times;</span>
+                    <h3 class="w3-text-white">Edit Data Kecamatan</h3>
+                  </header>
+                  <br>
+                  <div class="w3-container">
+                    <div class="w3-col">
+
+                    <div class="w3-row w3-margin-bottom">
+                        <label class="w3-label w3-col l3">Nama Kecamatan</label>
+                        <input class="w3-col l9 w3-input w3-border w3-round" type="text" id="edit-name" placeholder="Nama Kecamatan">
+                      </div>
+
+                      <!-- <div class="w3-row w3-margin-bottom">
+                        <label class="w3-label w3-col l3">Koordinat</label>
+                        <input class="w3-col l9 w3-input w3-border w3-round" type="text" id="edit-geom" placeholder="Koordinat">
+                      </div> -->
+                      <br>
+                    </div>
+
+                    <div class="w3-right w3-margin-bottom">
+                      <button class="w3-button w3-red w3-round" id="btn-batal-sunting" onclick="document.getElementById('modal-sunting').style.display='none'">Batal</button>
+                      <button type="button" class="w3-button w3-green w3-round w3-text-white" id="btn-update-sunting" onclick="putEditKecamatan()">Update</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- modal u/ hapus -->
+            <div class="w3-container">
+              <div id="modal-del" class="w3-modal w3-cols">
+
+                <div class="w3-col l4 w3-left">&nbsp;</div>
+                <div class="w3-col l4 w3-right">&nbsp;</div>
+                <div class="w3-modal-content w3-animate-top w3-card-4 w3-col l4">
+                  <div class="w3-container">
+                    <div class="w3-margin-bottom w3-margin-top">
+                      <p>Apakah anda yakin ingin menghapus data ini?</p>
+                    </div>
+                    <div class="w3-right w3-margin-top w3-margin-bottom">
+                      <button class="w3-button w3-red w3-round w3-text-white w3-padding-small" id="btn-batal-del" onclick="document.getElementById('modal-del').style.display='none'">Batal</button>
+                      <button type="button" class="w3-button w3-grey w3-round w3-text-white w3-padding-small" id="btn-hapus-del" onclick="hapusKecamatan()">OK</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <script>
+            //untuk search berdasarkan nama
+            function search(){
+              let search = document.getElementById("search-bar");
+              let filter = search.value.toUpperCase();
+              let tabel = document.getElementById("sby");
+              let tr = tabel.getElementsByTagName("tr");
+              // console.log(tr);
+
+              for (var i = 0; i < tr.length; i++) {
+                let td = tr[i].getElementsByTagName("td")[1];
+                // console.log(td);
+
+                if (td) {
+                  if (td.innerHTML.toUpperCase().indexOf(filter) > -1){
+                    tr[i].style.display = "";
+                  } else {
+                    tr[i].style.display = "none";
+                  }
+                }
+              }
+            }
+
+            function showTableKecamatan(){
+                  let nomor = 1;
+                  let tbl;
+                  let xmlhttp = new XMLHttpRequest();
+
+                  xmlhttp.onreadystatechange = function() {
+                    if(this.readyState == 4 && this.status == 200) {
+                      // console.log(JSON.parse(this.responseText));
+                      let data = JSON.parse(this.responseText);
+                      let tabelBody = document.getElementById("tbl_body_kecamatan");
+
+                      data.forEach(function(datum){
+                        // console.log(datum);
+                        let trIdKec = document.createElement("tr");
+                        let tdNomor = document.createElement("td");
+                        let tdName = document.createElement("td");
+                        //let tdGeom = document.createElement("td");
+                        let tdKelola = document.createElement("td");
+                        let btnEdit = document.createElement("button");
+                        let btnHapus = document.createElement("button");
+
+                        trIdKec.setAttribute("class", "baris-kecamatan");
+                        btnEdit.setAttribute("class", "w3-button w3-green w3-round-small w3-padding-small w3-text-white");
+                        btnEdit.setAttribute("onclick", "updateKecamatan(" + datum.gid + ")");
+                        btnHapus.setAttribute("class", "w3-button w3-red w3-round-small w3-padding-small");
+                        btnHapus.setAttribute("onclick", "tampilMdlHapusKecamatan(" + datum.gid + ")");
+                        tdName.setAttribute("class", "w3-center");
+                        //tdGeom.setAttribute("class", "w3-center");
+                        
+
+                        let nomorTeks = document.createTextNode(nomor);
+                        let nameTeks = document.createTextNode(datum.name);
+                        //let geomTeks = document.createTextNode(datum.geom);
+                        let editTeks = document.createTextNode("edit");
+                        let hapusTeks = document.createTextNode("hapus");
+                        let spasi = document.createTextNode(" ");
+
+                        // namaParent.appendChild(namaChild)
+                        btnEdit.appendChild(editTeks);
+                        btnHapus.appendChild(hapusTeks);
+                        tdNomor.appendChild(nomorTeks);
+                        tdName.appendChild(nameTeks);
+                        //tdGeom.appendChild(geomTeks);
+                        tdKelola.appendChild(btnEdit);
+                        tdKelola.appendChild(spasi);
+                        tdKelola.appendChild(btnHapus);
+
+                        trIdKec.appendChild(tdNomor);
+                        trIdKec.appendChild(tdName);
+                        //trIdKec.appendChild(tdGeom);
+                        trIdKec.appendChild(tdKelola);
+                        tabelBody.appendChild(trIdKec);
+
+                        // console.log("sensor"+nomor);
+                        nomor++;
+                      });
+                    }
+                  };
+                  xmlhttp.open("GET", "/api/sby_kecamatan", true);
+                  xmlhttp.send();
+                }
+
+                // tambah data kasusdb
+                function insertKecamatan(){
+                  let name = document.getElementById("name-kecamatan").value;
+                  //let geom = document.getElementById("geom-kecamatan").value;
+
+                  let JSONObject = {
+                    "name" : name,
+                    //"geom" : geom,
+                    };
+
+                    // console.log(idKel);
+                  postKecamatan(JSONObject);
+                  document.getElementById("name-kecamatan").value="";
+                  //document.getElementById("geom-kecamatan").value="";
+                  // console.log(idkelKasusDb);
+                }
+
+                function postKecamatan(data){
+                  let xhr = new XMLHttpRequest();
+
+                  xhr.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                      if(JSON.parse(this.responseText))
+                      {
+                        document.getElementById("modal-tambah").style.display = "none";
+                        resetTabelKecamatan();
+                        showTableKecamatan();
+                      }
+                    }
+                  };
+
+                  xhr.open("POST", "/api/sby_kecamatan", true);
+                  xhr.setRequestHeader("Content-type","application/json");
+                  xhr.send(JSON.stringify(data));
+                }
+
+                function resetTabelKecamatan(){
+                  let barisKecamatan = document.getElementsByClassName("baris-kecamatan");
+
+                  while(barisKecamatan.length){
+                    barisKecamatan[0].parentNode.removeChild(barisKecamatan[0]);
+                  }
+                }
+
+                // edit & update data sensor
+                var idEdit = 0;
+                function updateKecamatan(gid){
+                  let xhr = new XMLHttpRequest();
+
+                  xhr.onreadystatechange = function(){
+                    if (this.readyState == 4 && this.status == 200) {
+                      idEdit = gid;
+
+                      editModalKecamatan(JSON.parse(this.responseText));
+                    }
+                  };
+
+                  xhr.open("GET", "/api/sby_kecamatan/" + gid, true);
+                  xhr.send();
+                }
+
+                function editModalKecamatan(data){
+                    console.log(data)
+                    document.getElementById("edit-name").value = data.name;
+                    //document.getElementById("edit-geom").value = data.geom;
+                    
+                    document.getElementById("modal-sunting").style.display = "block";
+                }
+
+                // meletakkan data sensor ke db
+                function putEditKecamatan(){
+                    let editName = document.getElementById("edit-name").value;
+                    //let editGeom = document.getElementById("edit-geom").value;
+                    
+                  let editJSONObject = {
+                    "gid" : idEdit,
+                    "name" : editName,
+                    //"geom" : editGeom,
+                    };
+                    // console.log(editJSONObject);
+                  postEditKecamatan(editJSONObject);
+                }
+
+                function postEditKecamatan(data){
+                  let xhttp = new XMLHttpRequest();
+                  
+                  xhttp.onreadystatechange = function(){
+                    // console.log(this);
+                    if (this.readyState == 4 && this.status == 200) {
+                      if(JSON.parse(this.responseText))
+                      {
+                        resetTabelKecamatan();
+                        showTableKecamatan();
+                        document.getElementById("modal-sunting").style.display = "none";
+                      }
+                    }
+                  };
+
+                  console.log(data);
+
+                  xhttp.open("PUT", "/api/sby_kecamatan", true);
+                  xhttp.setRequestHeader("Content-type","application/json");
+                  // console.log(data);
+                  xhttp.send(JSON.stringify(data));
+                }
+
+                //fungsi u/ hapus
+                let idToDelete = 0;
+                function tampilMdlHapusKecamatan(gid){
+                  document.getElementById('modal-del').style.display='block';
+                  idToDelete = gid;
+                }
+
+                function hapusKecamatan(){
+                  let xhr = new XMLHttpRequest();
+
+                  xhr.onreadystatechange = function(){
+                    if (this.readyState == 4 && this.status == 200) {
+                      if (JSON.parse(this.responseText))
+                      {
+                        document.getElementById("modal-del").style.display = "none";
+                        resetTabelKecamatan();
+                        showTableKecamatan();
+                      }
+                    }
+                  };
+                  console.log(idToDelete);
+                  xhr.open("DELETE", "/api/sby_kecamatan/" +idToDelete, true);
+                  xhr.send();
+                }
+                showTableKecamatan();
+                //getKasusDb();
+                //initMap();
+
+                </script>
+            </div>
+          </div>
+        </div>
+
+        <script>
+            
+        </script>
+            <br>
+
+
+      <!-- tampilan map -->
+      <div class="w3-container">
+        <h5>Lokasi</h5>
+        <div class="w3-grey">
+          <!-- <div class="w3-container w3-center w3-padding w3-green" style="width:25%">+25%</div> -->
+          <div id="map" style="width: 100%; height: 400px"></div>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCw4g4V9MtupcGa7PjP6APSX0UFNyOe-08"></script>
+        
+        <script>
+            var infoWindow;
+            var map;
+
+            function getData() {
+              var xhttp = new XMLHttpRequest();
+              xhttp.onreadystatechange = function() {
+                if (xhttp.readyState == 4 && xhttp.status == 200) {
+                  fillMap(JSON.parse(xhttp.responseText));
+                }
+              };
+              xhttp.open("GET", "/api/sby_kecamatan", true);
+              xhttp.send();
+            }
+
+            function fillMap(data){
+              // console.log(data);
+              initMap(data);
+            }
+
+          function initMap(data = []) {
+              map = new google.maps.Map(document.getElementById('map'), {
+              center: {lat: -7.2763472, lng: 112.7192666},
+              zoom: 12,
+          mapTypeId: 'terrain'
+            });
+
+              data.forEach(function(kecamatan){
+                // console.log("Isinya GEOM: "+kecamatan.geom);
+                // console.log("Hallo");
+                if (kecamatan.geom != null) {
+                  var tepi = kecamatan.geom.replace("MULTIPOLYGON(((","").replace(")))","").split(",");
+                      var batas = [];
+                      // console.log(tepi);
+
+                      var warna = '#b50c15';
+                      // console.log(warna);
+
+                      tepi.forEach(function(geom) {
+                          var latLng = geom.split(" ");
+                           // console.log(latLng);
+
+                          batas.push({
+                              lat: parseFloat(latLng[1]),
+                              lng: parseFloat(latLng[0])
+                          });
+                          // console.log(batas);
+                      });
+
+                      var kecamatanPoly = new google.maps.Polygon({
+                          paths: batas,
+                          strokeColor: '#000000',
+                          strokeOpacity: 1,
+                          strokeWeight: 0.5,
+                          fillColor: warna,
+                          fillOpacity: 0.6
+                      });
+                      //console.log(geom.warna);
+
+                      google.maps.event.addListener(kecamatanPoly,'click',function() {
+                          //console.log(kecamatan.daerah);
+                           infoWindow.setContent('<b>' + kecamatan.daerah + '<br>Jumlah kejadian: ' + kecamatan.kejadian + '</b>');
+                           infoWindow.setPosition(batas[0]);
+                           infoWindow.open(map);
+                      });
+                        kecamatanPoly.setMap(map);
+                }
+              });
+
+              infoWindow = new google.maps.InfoWindow;
+            }
+
+            getData();
+
+            </script>
+        </div>
+
+      <!-- Footer -->
+      <footer class="w3-container w3-padding-16 w3-light-grey">
+        <!-- <h4>FOOTER</h4> -->
+        <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+      </footer>
+
+      <!-- End page content -->
+    </div>
+
+    <script>
+    // Get the Sidebar
+    var mySidebar = document.getElementById("mySidebar");
+
+    // Get the DIV with overlay effect
+    var overlayBg = document.getElementById("myOverlay");
+
+    // Toggle between showing and hiding the sidebar, and add overlay effect
+    function w3_open() {
+        if (mySidebar.style.display === 'block') {
+            mySidebar.style.display = 'none';
+            overlayBg.style.display = "none";
+        } else {
+            mySidebar.style.display = 'block';
+            overlayBg.style.display = "block";
+        }
+    }
+
+    // Close the sidebar with the close button
+    function w3_close() {
+        mySidebar.style.display = "none";
+        overlayBg.style.display = "none";
+    }
+    </script>
+
+    </body>
+    </html>

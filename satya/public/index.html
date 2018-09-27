@@ -1,0 +1,71 @@
+<!DOCTYPE>
+<html>
+	<head>
+		<style>
+		#map {
+			width: 100%;
+			height: 400px;
+			background-color: grey;
+		}
+		</style>
+	</head>
+	<body>
+		<h3>Menampilkan MAP</h3>
+		<div id="map"></div>
+
+		<script>
+		var dataJson = [];
+		var i;
+		var xmlhttp = new XMLHttpRequest();
+		xmlhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200){
+				var myObj = JSON.parse(this.responseText);
+				fillData(myObj);
+			}
+		};
+
+		xmlhttp.open("GET", "/api/sdtandes", true);
+		xmlhttp.send();
+
+			function initMap(){
+				map = new google.maps.Map(document.getElementById('map'), {
+					zoom: 10,
+					center: new google.maps.LatLng(-7.283106, 112.721294),
+					mapTypeId: 'terrain'
+				});
+
+				for(i = 0; i < dataJson.length; i++){
+					var marker = new google.maps.Marker({
+						position: dataJson[i].koordinat,
+						map: map,
+						title: dataJson[i].nama
+					});
+				}
+			}
+
+			function fillData(object){
+				for(i = 0; i < object.length; i++){
+					dataJson[i] = {
+						koordinat: {
+							lat: parseFloat(object[i].latitude),
+							lng: parseFloat(object[i].longitude)
+						},
+						nama: object[i].nama
+					};
+				}
+				showData();
+			}
+
+			function showData(){
+				initMap();
+			}
+
+		</script>
+
+		<script async defer
+			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAioZP-WX30J2FKbB5x8NT_t-hX_6Ck_Iw&callback=initMap">
+		</script>
+
+
+	</body>
+</html>
