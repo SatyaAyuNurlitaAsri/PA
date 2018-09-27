@@ -111,6 +111,8 @@ public class MetodeA extends Jooby {
 					}
 				}
 		        return toReturn;
+
+		        //menghitung jumlah sum baris dari variabel dependen dan independen
 	    		
 	    	});
 	    });
