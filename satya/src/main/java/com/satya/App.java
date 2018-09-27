@@ -108,6 +108,7 @@ public class App extends Jooby {
     assets("/img/Niece.png", "Niece.png");
     assets("/img/N1.jpg", "N1.jpg");
     assets("/img/N2.jpg", "N2.jpg");
+    assets("/img/Parameter.png", "Parameter.png");
 
     //Rute Login admin
     use(new ProsesLogin());
