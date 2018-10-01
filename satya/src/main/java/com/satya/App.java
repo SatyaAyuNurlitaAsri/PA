@@ -84,6 +84,9 @@ public class App extends Jooby {
     assets("/View", "View.html");
     assets("/Bantuan", "Bantuan.html");
     assets("/Bantuan1", "Bantuan1.html");
+    assets("/Bantuanlogin", "Bantuanlogin.html");
+    assets("/Bantuanloginadmin", "Bantuanloginadmin.html");
+    assets("/Bantuanadmin", "Bantuanadmin.html");
     //assets("/index3", "index3.html");
     //assets("/index4", "index4.html");
     assets("/PadatPenduduk", "PadatPenduduk.html");
@@ -109,6 +112,17 @@ public class App extends Jooby {
     assets("/img/N1.jpg", "N1.jpg");
     assets("/img/N2.jpg", "N2.jpg");
     assets("/img/Parameter.png", "Parameter.png");
+    assets("/img/Loginasadmin.png", "Loginasadmin.png");
+    assets("/img/Loginasguest.png", "Loginasguest.png");
+    assets("/img/loginadmin.png", "loginadmin.png");
+    assets("/img/LihatDataParameter.png", "LihatDataParameter.png");
+    assets("/img/TambahData.png", "TambahData.png");
+    assets("/img/Edit.png", "Edit.png");
+    assets("/img/Hapus.png", "Hapus.png");
+    assets("/img/logout.png", "logout.png");
+    assets("/img/DaftarParameter.png", "DaftarParameter.png");
+    assets("/img/Regresi.png", "Regresi.png");
+    assets("/img/Potensi.png", "Potensi.png");
 
     //Rute Login admin
     use(new ProsesLogin());

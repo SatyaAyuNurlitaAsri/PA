@@ -67,12 +67,14 @@
 <!-- Navbar (sit on top) -->
 <div class="w3-top">
   <div class="w3-bar w3-teal w3-large" style="z-index:4">
-    <a href="/View" class="w3-bar-item w3-button">Dengue<b>Risk</b></a>
+    <a href="/AdminPage" class="w3-bar-item w3-button"><b>Hal Admin</b></a>
     <!-- Right-sided navbar links. Hide them on small screens -->
     <div class="w3-right w3-hide-small">
-      <a href="#parameter" class="w3-bar-item w3-button">Lihat Parameter</a>
-      <a href="#regresi" class="w3-bar-item w3-button">Regresi</a>
-      <a href="#potensi" class="w3-bar-item w3-button">Potensi DB</a>
+      <a href="#dataparameter" class="w3-bar-item w3-button">Lihat Data Parameter</a>
+      <a href="#tambah" class="w3-bar-item w3-button">Tambah Data</a>
+      <a href="#edit" class="w3-bar-item w3-button">Edit Data</a>
+      <a href="#hapus" class="w3-bar-item w3-button">Hapus Data</a>
+      <a href="#logout" class="w3-bar-item w3-button">Logout</a>
     </div>
   </div>
 </div>
@@ -109,16 +111,16 @@
     </div>
   </div> -->
 
-  <!-- Parameter -->
-  <div class="w3-card-4 w3-margin w3-white" id="parameter">
-  <img src="/img/Parameter.png" alt="Norway" style="width:100%">
+  <!-- Data Parameter -->
+  <div class="w3-card-4 w3-margin w3-white" id="dataparameter">
+  <img src="/img/LihatDataParameter.png" alt="Norway" style="width:100%">
     <div class="w3-container">
-      <h3><b>MELIHAT DAFTAR PARAMETER <I>SOCIO ECONOMIC</I></b></h3>
+      <h3><b>Melihat Data Dari Masing-Masing Parameter</b></h3>
       <!--<h5>Title description, <span class="w3-opacity">April 2, 2014</span></h5>-->
     </div>
 
     <div class="w3-container">
-      <p>Pada bagian ini Anda dapat melihat daftar parameter socio economic yang digunakan pada aplikasi ini. Untuk melihat daftar parameter ini Anda cukup mengeklik bagian "Lihat Daftar Paramter" maka akan muncul seperti pada gambar diatas.</p>
+      <p>Pada bagian ini Anda dapat melihat data-data dari parameter yang digunakan pada aplikasi ini. Hal ini dapat Anda lakukan dengan mengeklik pada masing-masing halaman yang Anda inginkan. Misalnya Anda ingin melihat data kasus demam berdarah, maka cukup mengeklik "Kasus DB" seperti pada gambar diatas.</p>
       <!-- <div class="w3-row">
         <div class="w3-col m8 s12">
           <p><button class="w3-button w3-padding-large w3-white w3-border"><b>READ MORE »</b></button></p>
@@ -129,20 +131,20 @@
       </div> -->
     </div>
   </div>
-<!-- END of Parameter -->
+<!-- END of Data Parameter -->
   
   <hr>
 
-<!-- Regresi -->
-  <div class="w3-card-4 w3-margin w3-white" id="regresi">
-  <img src="/img/Parameter.png" alt="Norway" style="width:100%">
+<!-- Tambah -->
+  <div class="w3-card-4 w3-margin w3-white" id="tambah">
+  <img src="/img/TambahData.png" alt="Norway" style="width:100%">
     <div class="w3-container">
-      <h3><b>MELIHAT REGRESI PADA TIAP TAHUN</b></h3>
+      <h3><b>MELAKUKAN TAMBAH DATA</b></h3>
       <!--<h5>Title description, <span class="w3-opacity">April 2, 2014</span></h5>-->
     </div>
 
     <div class="w3-container">
-      <p>Pada bagian ini Anda dapat melihat daftar tahun yang dihitung potensi demam berdarahnya. Potensi demam berdarah ini dihitung mulai dari tahun 2012 hingga 2015. Untuk menampilkan daftar tahun potensi demam berdarah Anda cukup mengeklik bagian "Regresi", sehingga akan muncul daftar tahun seperti pada gambar diatas.</p>
+      <p>Pada bagian ini Anda dapat menambahkan data yang Anda inginkan. Hal ini dapat Anda lakukan dengan mengeklik button "Tambah Data". Maka akan muncul window seperti pada gambar diatas, setalh itu Anda dapat memasukkan data yang Anda inginkan yaitu ID Kecamatan, jumlah, dan tahun. Jangan Lupa untuk mengeklik simpan.</p>
       <!-- <div class="w3-row">
         <div class="w3-col m8 s12">
           <p><button class="w3-button w3-padding-large w3-white w3-border"><b>READ MORE »</b></button></p>
@@ -153,20 +155,20 @@
       </div> -->
     </div>
   </div>
-<!-- END of Regresi -->
+<!-- END of Tambah -->
 
 <hr></hr>
 
-<!-- Potensi Demam Berdarah -->
-  <div class="w3-card-4 w3-margin w3-white" id="potensi">
-  <img src="/img/Parameter.png" alt="Norway" style="width:100%">
+<!-- Edit-->
+  <div class="w3-card-4 w3-margin w3-white" id="edit">
+  <img src="/img/Edit.png" alt="Norway" style="width:100%">
     <div class="w3-container">
-      <h3><b>MELIHAT POTENSI DEMAM BERDARAH PADA TAHUN DAN DAERAH TERTENTU</b></h3>
+      <h3><b>EDIT DATA</b></h3>
       <!--<h5>Title description, <span class="w3-opacity">April 2, 2014</span></h5>-->
     </div>
 
     <div class="w3-container">
-      <p>Pada bagian ini Anda dapat melihat potensi demam berdarah pada tahun tertentu dan pada kecamatan yang diinginkan. Anda cukup mengeklik tahun yang diinginkan pada bagian "Regresi", misalnya Anda menginginkan tahun 2012 maka Anda harus mengeklik pada tahun 2012. Kemudian untuk melihat potensi demam berdarahnya Anda perlu untuk mengeklik daerah yang ingin Anda lihat, maka akan muncul informasi seperti pada gambar diatas.</p>
+      <p>Pada bagian ini Anda dapat melakukan edit data yang ada pada halaman. Hal ini dapat Anda lakukan dengan mengeklik tombol "Edit" yang sudah tersedia pada masing-masing data. Misalnya Anda ingin merubah jumlah kasus demam berdarah yang ada di kecamatan Benowo, maka Anda perlu mengeklik tombol hijau "Edit", setelah itu akan muncul window yang menampilkan Id Kecamatan, Jumlah Kasus, dan Tahun sehingga Anda dapat merubah data yang sudah ada. Jangan lupa untuk menekan "Update".</p>
       <!-- <div class="w3-row">
         <div class="w3-col m8 s12">
           <p><button class="w3-button w3-padding-large w3-white w3-border"><b>READ MORE »</b></button></p>
@@ -177,7 +179,52 @@
       </div> -->
     </div>
   </div>
-<!-- END of Potensi Demam Berdarah -->
+<!-- END of Edit -->
+
+<!-- Hapus-->
+  <div class="w3-card-4 w3-margin w3-white" id="hapus">
+  <img src="/img/Hapus.png" alt="Norway" style="width:100%">
+    <div class="w3-container">
+      <h3><b>MENGHAPUS DATA</b></h3>
+      <!--<h5>Title description, <span class="w3-opacity">April 2, 2014</span></h5>-->
+    </div>
+
+    <div class="w3-container">
+      <p>Pada bagian ini Anda dapat melakukan hapus data. Hal ini dapat Anda lakukan dengan mengeklik tombol merah "Hapus" yang dimana setelah tombol ini ditekan maka akan muncul window alert yang menanyakan "Apakah anda yakin ingin menghapus data ini?". Apabila Anda yakin maka klik OK. Setelah itu data akan terhapus.</p>
+      <!-- <div class="w3-row">
+        <div class="w3-col m8 s12">
+          <p><button class="w3-button w3-padding-large w3-white w3-border"><b>READ MORE »</b></button></p>
+        </div>
+        <div class="w3-col m4 w3-hide-small">
+          <p><span class="w3-padding-large w3-right"><b>Comments  </b> <span class="w3-badge">2</span></span></p>
+        </div>
+      </div> -->
+    </div>
+  </div>
+<!-- END of Hapus -->
+
+<!-- Logout-->
+  <div class="w3-card-4 w3-margin w3-white" id="logout">
+  <img src="/img/logout.png" alt="Norway" style="width:100%">
+    <div class="w3-container">
+      <h3><b>LOGOUT</b></h3>
+      <!--<h5>Title description, <span class="w3-opacity">April 2, 2014</span></h5>-->
+    </div>
+
+    <div class="w3-container">
+      <p>Pada bagian ini Anda dapat melakukan Logout yaitu dengan menekan tombol "Logout" pada pojok kanan atas. Apabila berhasil maka Anda akan dibawa ke halaman Login Admin</p>
+      <!-- <div class="w3-row">
+        <div class="w3-col m8 s12">
+          <p><button class="w3-button w3-padding-large w3-white w3-border"><b>READ MORE »</b></button></p>
+        </div>
+        <div class="w3-col m4 w3-hide-small">
+          <p><span class="w3-padding-large w3-right"><b>Comments  </b> <span class="w3-badge">2</span></span></p>
+        </div>
+      </div> -->
+    </div>
+  </div>
+<!-- END of Logout -->
+
 
 
   <!-- Menu Section -->

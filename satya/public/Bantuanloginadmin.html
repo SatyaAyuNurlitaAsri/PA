@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Panduan Pengguna DengueRisk</title>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+  <style>
+    html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
+
+      .mySlides {
+        display: none
+      }
+
+      /* Always set the map height explicitly to define the size of the div
+      * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
+      /* Add Animation */
+      @-webkit-keyframes animatetop {
+        from {top:-300px; opacity:0} 
+        to {top:0; opacity:1}
+      }
+
+      @keyframes animatetop {
+        from {top:-300px; opacity:0}
+        to {top:0; opacity:1}
+      }
+
+      .close {
+        color: black;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+      }
+
+      .close: hover,
+      .close: focus {
+        cursor: pointer;
+        color: #000;
+        text-decoration: none;
+      }
+
+      a:link {
+        text-decoration: none;
+      }
+    </style>
+  </head>
+
+<body class="w3-light-grey">
+
+<!-- Navbar (sit on top) -->
+<div class="w3-top">
+  <div class="w3-bar w3-teal w3-large" style="z-index:4">
+    <a href="/login" class="w3-bar-item w3-button"><b>Hal Login Admin</b></a>
+
+<!--     <div class="w3-left w3-hide-small">
+      <a href="/login" class="w3-bar-item w3-button">Hal Login Admin</a>
+    </div> -->
+
+    <div class="w3-right w3-hide-small">
+      <a href="#loginadmin" class="w3-bar-item w3-button">Login Sebagai Admin</a>
+    </div>
+  </div>
+</div>
+
+<!-- Header -->
+<header class="w3-display-container w3-content w3-wide" style="max-width:1600px;min-width:500px">
+  <img class="w3-image" src="/img/N1.jpg" alt="sil" width="1600" height="800">
+  <div class="w3-display-bottomright w3-padding-large w3-opacity">
+    <h1 class="w3-xxlarge">Dengue Risk</h1>
+  </div>
+</header>
+
+ <!-- The Band Section -->
+  <div class="w3-container w3-content w3-center w3-padding-64" style="max-width:800px">
+    <h2 class="w3-wide">DENGUE RISK</h2>
+    <!-- <p class="w3-opacity"><i>We love music</i></p> -->
+    <p class="w3-justify">DENGUE RISK merupakan Aplikasi yang bertujuan untuk memberikan informasi resiko potensi demam berdarah berdasarkan Socio Economic kota Surabaya. Aplikasi ini menghitung potensi demam berdarah pada setiap kecamatan di Surabaya sesuai dengan keadaan socio economic yang ada masing-masing kecamatan tersebut. Informasi demam berdarah ini ditampilkan dalam bentuk peta yang dimana setiap daerah akan menampilkan warna yang berbeda-beda untuk menjelaskan tingkat potensi demam berdarah pada kecamatan tersebut.</p>
+  </div>
+
+<!-- Page content -->
+<div class="w3-content" style="max-width:1100px">
+
+  <!-- About Section -->
+  <!-- <div class="w3-row w3-padding-64" id="parameter">
+    <div class="w3-col m6 w3-padding-large w3-hide-small">
+     <img src="/img/sil.jpg" class="w3-round w3-image w3-opacity-min" alt="Table Setting" width="600" height="750">
+    </div>
+
+    <div class="w3-col m6 w3-padding-large">
+      <h1 class="w3-center">Melihat Parameter</h1>
+      <h3 class="w3-center"><i>Socio Economic</i></h3><br>
+      <p class="w3-large">The Catering was founded in blabla by Mr. Smith in lorem ipsum dolor sit amet, consectetur adipiscing elit consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute iruredolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.We only use <span class="w3-tag w3-light-grey">seasonal</span> ingredients.</p>
+      <p class="w3-large w3-text-grey w3-hide-medium">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod temporincididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    </div>
+  </div> -->
+
+  <!-- Login -->
+  <div class="w3-card-4 w3-margin w3-white" id="loginadmin">
+  <img src="/img/loginadmin.png" alt="Norway" style="width:100%">
+    <div class="w3-container">
+      <h3><b>Login Admin</b></h3>
+      <!--<h5>Title description, <span class="w3-opacity">April 2, 2014</span></h5>-->
+    </div>
+
+    <div class="w3-container">
+      <p>Pada bagian ini Anda dapat sebagai Admin dapat masuk kedalam halaman Admin untuk mengolah data parameter socio economic dan kasus demam berdarah. Sebelum masuk ke halaman Admin, Anda diminta untuk memasukkan username dan password. Username = admin, password = 12345.</p>
+    </div>
+  </div>
+<!-- END of Login -->
+    
+<!-- End page content -->
+</div>
+
+<!-- Footer -->
+<footer class="w3-center w3-light-grey w3-padding-32">
+  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-text-green">w3.css</a></p>
+</footer>
+
+</body>
+</html>
